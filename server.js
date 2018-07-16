@@ -5,21 +5,21 @@ const app = express();
 //middleware
 app.use(express.json());
 
-// var sql = require("mysql");
-// var connection = sql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "",
-//   database: "employee_database"
-// });
-// connection.connect();
-// connection.query("SELECT * from employee_details", function(err, rows, fields) {
-//   if (err) throw err;
+var sql = require("mysql");
+var connection = sql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "employee_database"
+});
+connection.connect();
+connection.query("SELECT * from employee_details", function(err, rows, fields) {
+  if (err) throw err;
 
-//   console.log("The solution is: ", rows[0].lastname);
-// });
+  console.log("The solution is: ", rows[0].lastname);
+});
 
-// connection.end();
+connection.end();
 
 app.get("/", (req, res) => {
   console.log(req);
