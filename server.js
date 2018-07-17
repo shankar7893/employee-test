@@ -18,6 +18,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
+  console.log(req.headers);
   const loginschema = {
     username: Joi.string()
       .min(3)
@@ -29,7 +30,7 @@ app.post("/", (req, res) => {
   const result = Joi.validate(req.body, loginschema);
   if (result.error) {
     let error = result.error.details[0].message;
-    res.send(error);
+    res.send({ error });
   } else {
     let user = { username: "", password: "" };
 
@@ -40,7 +41,7 @@ app.post("/", (req, res) => {
       (err, rows) => {
         if (rows.length == 0) {
           console.log("error");
-          res.send({ error: "error" });
+          res.send({ error: "invaild details" });
         } else {
           user.username = rows[0].username;
           user.password = rows[0].password;
