@@ -11,8 +11,7 @@ module.exports.sqlconnection = (query, callback) => {
   });
   connection.connect(); //SELECT * from employee_details
   connection.query(query, function(err, rows, fields) {
-    if (err) callback(err, rows);
-
+    // if (err) throw err;
     callback(err, rows);
   });
 
