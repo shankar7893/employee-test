@@ -29,8 +29,8 @@ export default class App extends React.Component {
       <View style={{flex:1, alignItems:'center',justifyContent:'center' }}>
       
       <View style={{justifyContent:'center', flex:3}} >
-        <Image source={require('./assets/plogo.png')} style={{ width:150,
-         height:150, marginTop:Dimensions.get('window').height*0.09,
+        <Image source={require('./assets/plogo.png')} style={{ width:'70%',
+         height:Dimensions.get('window').width*0.7, marginTop:Dimensions.get('window').height*0.09,
          marginBottom:Dimensions.get('window').height*0.09}}  />
        </View>
         <View style={{flex:3}} >
