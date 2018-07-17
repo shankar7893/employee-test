@@ -1,21 +1,65 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>create employee</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        input[type=text],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        input[type=submit] {
+            background-color: rgb(15, 4, 78);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <form action="" method="POST">
-        First name
-        <br>
-        <input type=" text" name="username">
-        <br> Last name:
-        <br>
-        <input type="password" name="password">
-        <br>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
+
+    <h3>login</h3>
+
+    <div class="container">
+        <form action="" method="POST">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="username" placeholder="Your name..">
+
+            <label for="lname">password</label>
+            <input type="text" id="lname" name="password" placeholder="Your Password">
+
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
 </body>
 
 </html>
