@@ -44,8 +44,8 @@ app.post("/", (req, res) => {
         console.log(user);
       }
     );
-    res.setHeader("content-type", "json/text");
-    res.send(user);
+    res.setHeader("content-type", "text/plain");
+    res.send("helo");
   }
 });
 
