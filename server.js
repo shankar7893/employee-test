@@ -1,25 +1,25 @@
 //imports
 const express = require("express");
 const app = express();
-const path = require("path");
-const bodyParser = require("body-parser");
 const Joi = require("joi");
+//const bodyParser = require("body-parser");
+
 const sqlconnection = require("./Sql Connection/sqlconnection");
 
 //middleware
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("static"));
 
 app.get("/", (req, res) => {
-  console.log("hii");
-  res.sendFile(path.join("index.html"));
+  res.render("index.html");
 });
 
 app.post("/", (req, res) => {
-  const schema = {
+  console.log(req.headers);
+  const loginschema = {
     username: Joi.string()
       .min(3)
       .required(),
@@ -27,25 +27,28 @@ app.post("/", (req, res) => {
       .min(3)
       .required()
   };
-  const result = Joi.validate(req.body, schema);
-  let user = {};
+  const result = Joi.validate(req.body, loginschema);
   if (result.error) {
-    res.setHeader("content-type", "text/plain");
-    res.send(result.error.details[0].message);
+    let error = result.error.details[0].message;
+    res.send({ error });
   } else {
-    const name = req.body.username;
+    let user = { username: "", password: "" };
+
     sqlconnection.sqlconnection(
-      `SELECT * from employee_details where username="${name}"`,
+      `SELECT * from employee_details where username="${
+        req.body.username
+      }" and password="${req.body.password}"`,
       (err, rows) => {
-        //user = rows;
-        user = {
-          username: rows[0].username
-        };
-        console.log(user);
+        if (rows.length == 0) {
+          console.log("error");
+          res.send({ error: "invaild details" });
+        } else {
+          user.username = rows[0].username;
+          user.password = rows[0].password;
+          res.send(rows);
+        }
       }
     );
-    res.setHeader("content-type", "text/plain");
-    res.send("helo");
   }
 });
 
