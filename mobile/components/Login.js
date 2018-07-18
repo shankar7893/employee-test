@@ -1,6 +1,6 @@
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
-   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback } from 'react-native';
+   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import Home from './Home';
 import axios from 'react-native-axios';
@@ -26,17 +26,19 @@ import axios from 'react-native-axios';
           })
           .then(function (response) {
             console.log(response);
+            this.props.navigation.navigate('Home');
           })
           .catch(function (error) {
             console.log(error);
           });
+
     }
     
     render() {
       return (
       
         <KeyboardAvoidingView behavior="padding" style={{flex:1, alignItems:'center',justifyContent:'center' }}>
-        
+    
         <View style={{justifyContent:'center', flex:3}} >
           <Image source={require('../assets/plogo.png')} style={{ width:Dimensions.get('window').width*0.6,
            height:Dimensions.get('window').width*0.6, marginTop:Dimensions.get('window').height*0.09,
