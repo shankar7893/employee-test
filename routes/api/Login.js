@@ -26,11 +26,11 @@ router.post("/", (req, res) => {
       (err, rows) => {
         if (rows.length == 0) {
           console.log("error");
-          res.send({ error: "invaild details" });
+          res.json({ error: "invaild details" });
         } else {
           user.username = rows[0].username;
           user.password = rows[0].password;
-          res.send(rows);
+          res.json(rows);
         }
       }
     );
