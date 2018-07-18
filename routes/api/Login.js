@@ -1,21 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const Joi = require("joi");
 const sqlconnection = require("../../Sql Connection/sqlconnection");
+const login = require("../../vaildation/login");
 
 router.post("/", (req, res) => {
-  const loginschema = {
-    username: Joi.string()
-      .min(3)
-      .required(),
-    password: Joi.string()
-      .min(3)
-      .required()
-  };
-  const result = Joi.validate(req.body, loginschema);
-  if (result.error) {
-    let error = result.error.details[0].message;
-    res.send({ error });
+  const { errors, isvalid } = login(req.body);
+  if (!isvalid) {
+    return res.json(errors);
   } else {
     let user = { username: "", password: "" };
 
@@ -25,12 +16,12 @@ router.post("/", (req, res) => {
       }" and password="${req.body.password}"`,
       (err, rows) => {
         if (rows.length == 0) {
-          console.log("error");
-          res.send({ error: "invaild details" });
+          errors.details = "invalid details";
+          res.json(errors);
         } else {
           user.username = rows[0].username;
           user.password = rows[0].password;
-          res.send(rows);
+          res.json(rows);
         }
       }
     );
