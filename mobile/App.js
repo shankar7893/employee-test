@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity } from 'react-native';
+import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import {Button} from 'native-base';
 
 export default class App extends React.Component {
@@ -25,7 +25,7 @@ export default class App extends React.Component {
   
   render() {
     return (
-
+    
       <View style={{flex:1, alignItems:'center',justifyContent:'center' }}>
       
       <View style={{justifyContent:'center', flex:3}} >
@@ -33,7 +33,8 @@ export default class App extends React.Component {
          height:Dimensions.get('window').width*0.6, marginTop:Dimensions.get('window').height*0.09,
          marginBottom:Dimensions.get('window').height*0.09}}  />
        </View>
-        <View style={{flex:3}} >
+       
+        <KeyboardAvoidingView style={{flex:3}} >
         <TextInput
           value={this.state.username}
           onChangeText={(username) => this.setState({ username })}
@@ -46,7 +47,7 @@ export default class App extends React.Component {
           placeholder={'Password'}
           secureTextEntry={true}
           style={styles.input}
-        />
+        />  
         <View style={{alignItems:'center',justifyContent:'center'}} >
       <TouchableOpacity onPress={this.onLogin.bind(this)} style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'lightblue',
       alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
@@ -54,7 +55,7 @@ export default class App extends React.Component {
       <Text>Login</Text> 
       </TouchableOpacity>
     </View>
-        </View>
+        </KeyboardAvoidingView>
         </View>
     
     );

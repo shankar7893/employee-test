@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-         <div class="body"></div>
+         <div className="body"></div>
 		<div className="grad"></div>
 		<div className="header">
 			<div>Pronteff<span>Login</span></div>
