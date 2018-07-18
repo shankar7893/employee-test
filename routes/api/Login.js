@@ -16,16 +16,13 @@ router.post("/", (req, res) => {
       }" and password="${req.body.password}"`,
       (err, rows) => {
         if (rows.length == 0) {
-<<<<<<< HEAD
           errors.details = "invalid details";
+          console.log("shankar");
           res.json(errors);
-=======
-          console.log("error");
-          res.json({ error: "invaild details" });
->>>>>>> 207a1daf9ee80684c08c75cf83471e0714e85470
         } else {
           user.username = rows[0].username;
           user.password = rows[0].password;
+          console.log("shankar");
           res.json(rows);
         }
       }
