@@ -1,56 +1,25 @@
 //imports
 const express = require("express");
 const app = express();
-const Joi = require("joi");
-//const bodyParser = require("body-parser");
-
-const sqlconnection = require("./Sql Connection/sqlconnection");
+const Home = require("./routes/api/Home");
+const login = require("./routes/api/Login");
+const createEmployee = require("./routes/api/CreateEmployee");
 
 //middleware
 
+app.use(express.static(__dirname + "static"));
+app.set("views", __dirname + "/static");
+app.engine("html", require("ejs").renderFile);
+app.set("view engine", "html");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("static"));
 
-app.get("/", (req, res) => {
-  res.render("index.html");
-});
-
-app.post("/", (req, res) => {
-  console.log(req.headers);
-  const loginschema = {
-    username: Joi.string()
-      .min(3)
-      .required(),
-    password: Joi.string()
-      .min(3)
-      .required()
-  };
-  const result = Joi.validate(req.body, loginschema);
-  if (result.error) {
-    let error = result.error.details[0].message;
-    res.send({ error });
-  } else {
-    let user = { username: "", password: "" };
-
-    sqlconnection.sqlconnection(
-      `SELECT * from employee_details where username="${
-        req.body.username
-      }" and password="${req.body.password}"`,
-      (err, rows) => {
-        if (rows.length == 0) {
-          console.log("error");
-          res.send({ error: "invaild details" });
-        } else {
-          user.username = rows[0].username;
-          user.password = rows[0].password;
-          res.send(rows);
-        }
-      }
-    );
-  }
-});
+//Routes
+app.use("/", Home);
+app.use("/", login);
+app.use("/create", createEmployee);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

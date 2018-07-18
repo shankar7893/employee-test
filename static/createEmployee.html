@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>create employee</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        input[type=text],
+        input[type=date],
+        input[type=number],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            resize: vertical;
+        }
+
+        input[type=submit] {
+            background-color: rgb(15, 4, 78);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h3>Create employee</h3>
+
+    <div class="container">
+        <form action="/create" method="POST">
+
+            <label for="fname">Employee Id</label>
+            <input type="text" id="fname" name="employee_id" placeholder="employee id">
+
+            <label for="lname">Company Id</label>
+            <input type="text" id="lname" name="company_id" placeholder="company id">
+
+            <label for="fname">Department Id</label>
+            <input type="text" id="fname" name="department_id" placeholder="department id">
+
+            <label for="lname">firstname</label>
+            <input type="text" id="lname" name="firstname" placeholder="firstname">
+
+            <label for="fname">lastname</label>
+            <input type="text" id="fname" name="lastname" placeholder="lastname">
+
+            <label for="lname">birthdate</label>
+            <input type="date" id="lname" name="birthdate" placeholder="birth date">
+
+            <label for="fname">hireddate</label>
+            <input type="date" id="fname" name="hireddate" placeholder="hired date">
+
+            <label for="lname">age</label>
+            <input type="number" id="lname" name="age" placeholder="age">
+
+            <label for="fname">designation</label>
+            <input type="text" id="fname" name="designation" placeholder="designation">
+
+            <label for="lname">address</label>
+            <textarea id="subject" name="address" placeholder="address...." style="height:200px"></textarea>
+
+            <label for="fname">working Location</label>
+            <input type="text" id="fname" name="workinglocation" placeholder="working location">
+
+            <label for="lname">mobile number</label>
+            <input type="number" id="lname" name="mobileno" placeholder="mobile number">
+
+            <label for="fname">user name</label>
+            <input type="text" id="fname" name="username" placeholder="user name">
+
+            <label for="lname">password</label>
+            <input type="text" id="lname" name="password" placeholder="password">
+
+
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+</body>
+
+</html>
