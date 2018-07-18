@@ -63,7 +63,7 @@ module.exports = function validateLogin(data) {
   if (validator.isEmpty(data.mobileno)) {
     errors.mobileno = "mobile number should not be empty";
   }
-  // if (validator.isLength(data.mobileno, { min: 10, max: 13 })) {
+  // if (validator.isLength(data.mobileno, { min: 9, max: 13 })) {
   //   errors.mobileno = "mobile number should not exceed 13 digits including +91";
   // }
   if (validator.isEmpty(data.username)) {

@@ -17,12 +17,10 @@ router.post("/", (req, res) => {
       (err, rows) => {
         if (rows.length == 0) {
           errors.details = "invalid details";
-          console.log("shankar");
           res.json(errors);
         } else {
           user.username = rows[0].username;
           user.password = rows[0].password;
-          console.log("shankar");
           res.json(rows);
         }
       }
