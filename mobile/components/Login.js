@@ -26,10 +26,12 @@ import axios from 'react-native-axios';
           })
           .then(function (response) {
             console.log(response);
+            this.props.navigation.navigate('Home');
           })
           .catch(function (error) {
             console.log(error);
           });
+
     }
     
     render() {
