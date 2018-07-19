@@ -12,7 +12,7 @@ router.post("/", (req, res) => {
 
     sqlconnection.sqlconnection(
       `SELECT * from employee_details where username="${
-        req.body.username
+      req.body.username
       }" and password="${req.body.password}"`,
       (err, rows) => {
         if (rows.length == 0) {
@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
         } else {
           user.username = rows[0].username;
           user.password = rows[0].password;
-          res.json(rows);
+          res.json(rows[0]);
         }
       }
     );
