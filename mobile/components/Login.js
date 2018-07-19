@@ -19,22 +19,22 @@ import axios from 'react-native-axios';
    
     
     
-    onLogin() {
-        axios.post('http://localhost:5000/', {
-            username: 'prasad',
-            password: '123456'
-          })
-          .then(function (response) {
-            console.log(response);
-            this.props.navigation.navigate('Home');
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
-    }
+    // onLogin() {
+    //     axios.post('http://192.168.0.162:5000/', {
+    //         username: 'prasad',
+    //         password: '123456'
+    //       })
+    //       .then(res => {
+    //         console.log(res);
+    //         console.log(res.data);
+    //         if(res.data != null){
+    //           navigate('Home');
+    //         }
+    //       })
+    // }
     
     render() {
+      const { navigate } = this.props.navigation;
       return (
       
         <KeyboardAvoidingView behavior="padding" style={{flex:1, alignItems:'center',justifyContent:'center' }}>
@@ -60,7 +60,20 @@ import axios from 'react-native-axios';
             style={styles.input}
           /> 
           <View style={{alignItems:'center',justifyContent:'center'}} >
-        <TouchableOpacity onPress={this.onLogin.bind(this)} style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'lightblue',
+        <TouchableOpacity onPress={() =>
+        axios.post('http://192.168.0.162:5000/', {
+            username: this.state.username,
+            password: this.state.password
+          })
+          .then(res => {
+            console.log(res);
+            console.log(res.data);
+            if(res.data.details != 'invalid details'){
+              navigate('Home');
+            }
+          }) } 
+        
+        style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'lightblue',
         alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
          ,width:Dimensions.get('window').width*0.5,height:44,borderRadius:10 }} >
         <Text>Login</Text> 
