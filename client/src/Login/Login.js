@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
-import "./Login/css/style.css";
+import "./css/style.css";
 import axios from "axios";
 
 class App extends Component {
