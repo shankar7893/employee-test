@@ -7,7 +7,8 @@ import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpa
 
     render() {
         return(
-            <Text>Hello</Text>
+            <View style={{justifyContent:'center', alignItems:'center',flex:1}} >
+            <Text>Hello </Text></View>
         );
     }
 }

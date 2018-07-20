@@ -18,8 +18,8 @@ export default class App extends React.Component {
 
 const AppNavigation =  createStackNavigator(
   {
-    Login: Login,
-    Home: Home,
+    Login: { screen: Login },
+    Home: { screen: Home },
   },
   {
     navigationOptions:{
