@@ -26,6 +26,7 @@ const AppNavigation =  createStackNavigator(
   {
     navigationOptions:{
       header:null,
+      gesturesEnabled: false,
     }
   }
 );

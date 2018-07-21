@@ -38,6 +38,11 @@ import SettingsPage from './SettingsPage';
     
     class settings extends React.Component {
       render() {
+        const { navigation } = this.props;
+        const username = navigation.getParam('name', 'NO-name');
+        //const password = navigation.getParam('empid', 'some default value');
+        console.log("user",username)
+
         return (
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>Settings!</Text>
@@ -45,9 +50,25 @@ import SettingsPage from './SettingsPage';
         );
       }
     }
+
+    
     
     export default createBottomTabNavigator({
       Home: { screen: Home, 
      },
       Settings: { screen: settings },
-    });
+    }, {
+      animationEnabled: true,
+      swipeEnabled: true,    
+      tabBarOptions: {
+  
+          showLabel: true, // hide labels
+          activeTintColor: '#F8F8F8', // active icon color
+          inactiveTintColor: '#586589',  // inactive icon color
+          style: {
+              backgroundColor: '#171F33' // TabBar background
+          }
+      }
+  }
+
+  );
