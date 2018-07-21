@@ -1,12 +1,14 @@
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
    KeyboardAvoidingView } from 'react-native';
-import {Button} from 'native-base';
+import {Button, BackHandler } from 'native-base';
 import { createStackNavigator } from 'react-navigation';
 import Home from './components/Home';
 import Login from './components/Login';
 
 export default class App extends React.Component {
+
+
   render() {
     return (
     

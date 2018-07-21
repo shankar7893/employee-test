@@ -1,7 +1,8 @@
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
-   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard } from 'react-native';
+   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard, Platform} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import { BackHandler } from 'native-base';
 import Home from './Home';
 import axios from 'react-native-axios';
 
@@ -13,10 +14,32 @@ import axios from 'react-native-axios';
         username: '',
         password: '',
   
-      };
- 
+      }
+
     }
+    
    
+        // componentDidMount() {
+        // //  this._loadInitialState().done();
+        //  BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
+        // }
+        // handleBackPress = () => {
+        //   this.goBack(); // works best when the goBack is async
+        //   return true;
+        // }} 
+ 
+
+        // _loadInitialState = async () => {
+       
+        //  var value = await AsyncStorage.getItem('user');
+        //  if (value != null){
+           
+          
+        //    this.props.navigation.navigate('Home');
+        //  }
+        // }
+    
     
     
     // onLogin() {
@@ -35,6 +58,8 @@ import axios from 'react-native-axios';
     
     render() {
       const { navigate } = this.props.navigation;
+      
+
       return (
       
         <KeyboardAvoidingView behavior="padding" style={{flex:1, alignItems:'center',justifyContent:'center' }}>
@@ -66,10 +91,15 @@ import axios from 'react-native-axios';
             password: this.state.password
           })
           .then(res => {
-            console.log(res);
-            console.log(res.data);
-            if(res.data.details != 'invalid details'){
-              navigate('Home');
+            
+            
+            if(res.data.firstname === 'durga'){
+            //  await AsyncStorage.setItem('user', res.data.fristname);
+              navigate('Home', {
+                name : res.data.username,
+                empid : res.data.password,
+              });
+              
             }
           }) } 
         
