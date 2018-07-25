@@ -1,7 +1,8 @@
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
-   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard } from 'react-native';
+   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard, Platform} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import { BackHandler } from 'native-base';
 import Home from './Home';
 import axios from 'react-native-axios';
 
@@ -13,10 +14,32 @@ import axios from 'react-native-axios';
         username: '',
         password: '',
   
-      };
- 
+      }
+
     }
+    
    
+        // componentDidMount() {
+        // //  this._loadInitialState().done();
+        //  BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+
+        // }
+        // handleBackPress = () => {
+        //   this.goBack(); // works best when the goBack is async
+        //   return true;
+        // }} 
+ 
+
+        // _loadInitialState = async () => {
+       
+        //  var value = await AsyncStorage.getItem('user');
+        //  if (value != null){
+           
+          
+        //    this.props.navigation.navigate('Home');
+        //  }
+        // }
+    
     
     
     // onLogin() {
@@ -35,6 +58,8 @@ import axios from 'react-native-axios';
     
     render() {
       const { navigate } = this.props.navigation;
+      
+
       return (
       
         <KeyboardAvoidingView behavior="padding" style={{flex:1, alignItems:'center',justifyContent:'center' }}>
@@ -60,16 +85,22 @@ import axios from 'react-native-axios';
             style={styles.input}
           /> 
           <View style={{alignItems:'center',justifyContent:'center'}} >
-        <TouchableOpacity onPress={() =>
+        <TouchableOpacity onPress={async () =>
         axios.post('http://192.168.0.162:5000/', {
             username: this.state.username,
             password: this.state.password
           })
           .then(res => {
-            console.log(res);
-            console.log(res.data);
-            if(res.data.details != 'invalid details'){
-              navigate('Home');
+            
+            AsyncStorage.setItem('userToken', res.data.username);
+            AsyncStorage.setItem('userPassword', res.data.password);
+            
+           console.log(res.data.firstname);
+            if(res.data.firstname === 'durga'){
+            //  await AsyncStorage.setItem('user', res.data.fristname);
+            
+              navigate('App');
+              
             }
           }) } 
         
