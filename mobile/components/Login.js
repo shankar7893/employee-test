@@ -85,20 +85,21 @@ import axios from 'react-native-axios';
             style={styles.input}
           /> 
           <View style={{alignItems:'center',justifyContent:'center'}} >
-        <TouchableOpacity onPress={() =>
+        <TouchableOpacity onPress={async () =>
         axios.post('http://192.168.0.162:5000/', {
             username: this.state.username,
             password: this.state.password
           })
           .then(res => {
             
+            AsyncStorage.setItem('userToken', res.data.username);
+            AsyncStorage.setItem('userPassword', res.data.password);
             
+           console.log(res.data.firstname);
             if(res.data.firstname === 'durga'){
             //  await AsyncStorage.setItem('user', res.data.fristname);
-              navigate('Home', {
-                name : res.data.username,
-                empid : res.data.password,
-              });
+            
+              navigate('App');
               
             }
           }) } 

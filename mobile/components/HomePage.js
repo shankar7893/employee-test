@@ -1,6 +1,6 @@
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
-   KeyboardAvoidingView, BackHandler,Platform,ToastAndroid } from 'react-native';
+   KeyboardAvoidingView, BackHandler,Platform,ToastAndroid,AsyncStorage } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 import { Container, Header, Content, Accordion, Thumbnail } from "native-base";
 
@@ -9,12 +9,17 @@ import axios from 'react-native-axios';
   class HomePage extends React.Component {
 
     state = { empData: [] };
-componentDidMount(){
+async componentDidMount (){
+     let username = await AsyncStorage.getItem('userToken');
+    let password = await AsyncStorage.getItem('userPassword');
+    
+   
+                          
   axios.post('http://192.168.0.162:5000/', {
-    username: this.props.username,
-    password: this.props.password
+    username: username,
+    password: password
   }).then(res => {
-   console.log(res);
+  
      this.setState({ empData: res.data });
   })
 }

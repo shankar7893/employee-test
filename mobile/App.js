@@ -1,10 +1,15 @@
 import React from 'react';
-import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
+import {  Alert, TextInput, View, StyleSheet,Image,Dimensions,ActivityIndicator,
+  AsyncStorage,
+ 
+  StatusBar, Text,TouchableOpacity,
    KeyboardAvoidingView } from 'react-native';
 import {Button, BackHandler } from 'native-base';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import Home from './components/Home';
 import Login from './components/Login';
+import AttendenceScreen from './components/AttendenceScreen';
+import AuthLoadingScreen from './components/AuthLoadingScreen';
 
 export default class App extends React.Component {
 
@@ -18,16 +23,28 @@ export default class App extends React.Component {
   }
 }
 
-const AppNavigation =  createStackNavigator(
-  {
-    Login: { screen: Login },
-    Home: { screen: Home },
-  },
+const AppStack = createStackNavigator({ Home: Home, Other: AttendenceScreen },
   {
     navigationOptions:{
       header:null,
       gesturesEnabled: false,
-    }
+   } });
+const AuthStack = createStackNavigator({ SignIn: Login },
+  {
+    navigationOptions:{
+      header:null,
+      gesturesEnabled: false,
+   } });
+
+
+const AppNavigation =  createSwitchNavigator(
+  {
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
+  },
+  {
+    initialRouteName: 'AuthLoading',
   }
 );
 
