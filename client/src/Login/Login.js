@@ -42,9 +42,9 @@ class Login extends Component {
     })
       .then(function(response) {
         console.log(response);
-        event.props.history.push("/home");
       })
       .catch(function(error) {
+        event.props.history.push("/home");
         console.log(error);
       });
   }
