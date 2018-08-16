@@ -1,9 +1,10 @@
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
-   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard, Platform} from 'react-native';
+   KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard, Platform,} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import { BackHandler } from 'native-base';
-import Home from './Home';
+import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
+import 'css-to-react-native';
+
 import axios from 'react-native-axios';
 
   class Login extends React.Component {
@@ -17,8 +18,6 @@ import axios from 'react-native-axios';
       }
 
     }
-    
-   
         // componentDidMount() {
         // //  this._loadInitialState().done();
         //  BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
@@ -61,17 +60,18 @@ import axios from 'react-native-axios';
       
 
       return (
+      <View style={{flex:1, alignItems:'center',justifyContent:'center', backgroundColor:'white' }}>
       
-        <KeyboardAvoidingView behavior="padding" style={{flex:1, alignItems:'center',justifyContent:'center' }}>
-    
-        <View style={{justifyContent:'center', flex:3}} >
-          <Image source={require('../assets/plogo.png')} style={{ width:Dimensions.get('window').width*0.6,
-           height:Dimensions.get('window').width*0.6, marginTop:Dimensions.get('window').height*0.09,
+        <KeyboardAvoidingView behavior="padding" style={{flex:5}} >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{justifyContent:'center',alignItems:'center', flex:3}} >
+          <Image source={require('../assets/plogo.png')} style={{ width:Dimensions.get('window').width*0.45,
+           height:Dimensions.get('window').width*0.45, marginTop:Dimensions.get('window').height*0.09,
            marginBottom:Dimensions.get('window').height*0.09}}  />
-         </View>
+         </View></TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <View style={{flex:3}} >
-          <TextInput
+          <View style={{flex:2}} >
+          {/* <TextInput
             value={this.state.username}
             onChangeText={(username) => this.setState({ username })}
             placeholder={'Username'}
@@ -83,36 +83,58 @@ import axios from 'react-native-axios';
             placeholder={'Password'}
             secureTextEntry={true}
             style={styles.input}
-          /> 
-          <View style={{alignItems:'center',justifyContent:'center'}} >
+          />  */}
+
+          <Form style={{flex:1}}>
+            <Item floatingLabel style={styles.input} >
+              
+              <Input   value={this.state.username}  placeholderTextColor='lightgray' placeholder='Enter your employee id'
+            onChangeText={(username) => this.setState({ username })} style={{fontSize:13}}
+             />
+            </Item>
+            <Item floatingLabel style={styles.input} >
+              
+              <Input placeholderTextColor='lightgray' placeholder='Enter your password' value={this.state.password}
+            onChangeText={(password) => this.setState({ password }) } style={{fontSize:13}}
+           
+            secureTextEntry={true} />
+            </Item>
+          </Form>
+        
+          
+          </View></TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
+          
+          <View style={{alignItems:'center',justifyContent:'flex-start' ,flex:2}} >
         <TouchableOpacity onPress={async () =>
-        axios.post('http://192.168.0.162:5000/', {
+        axios.post('http://192.168.0.168:5000/', {
             username: this.state.username,
-            password: this.state.password
+            password: this.state.password,
           })
           .then(res => {
-            
+        
             AsyncStorage.setItem('userToken', res.data.username);
             AsyncStorage.setItem('userPassword', res.data.password);
             
            console.log(res.data.firstname);
-            if(res.data.firstname === 'durga'){
+            if(res.data.firstname != null){
             //  await AsyncStorage.setItem('user', res.data.fristname);
             
               navigate('App');
               
             }
-          }) } 
+          }).catch((error)=>{
+            console.log("Api call error");
+            alert(error.message);
+         }) } 
         
-        style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'lightblue',
+        style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
         alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
-         ,width:Dimensions.get('window').width*0.5,height:44,borderRadius:10 }} >
-        <Text>Login</Text> 
+         ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >
+        <Text style={{color:'white'}} >Login</Text> 
         </TouchableOpacity>
       </View>
-          </View></TouchableWithoutFeedback>
-          </KeyboardAvoidingView>
-      
+          </View>
       );
     }
   }
@@ -129,9 +151,10 @@ import axios from 'react-native-axios';
       width: Dimensions.get('window').width*0.9,
       height: 44,
       padding: 10,
-      borderWidth: 1,
-      borderColor: 'black',
+      borderBottomWidth: 1,
+      
       margin: 10,
+      borderBottomColor:'lightgray'
     },
   });
   

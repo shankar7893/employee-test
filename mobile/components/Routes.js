@@ -3,13 +3,19 @@ import {  Alert, TextInput, View, StyleSheet,Image,Dimensions,ActivityIndicator,
     AsyncStorage,StatusBar, Text,TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Container, Header, Content, Accordion, Thumbnail,Button, BackHandler } from "native-base";
-import Home from './Home';
+import { Ionicons,FontAwesome,MaterialCommunityIcons,
+  Feather } from '@expo/vector-icons';
 import Login from './Login';
 import AttendenceScreen from './AttendenceScreen';
 import AuthLoadingScreen from './AuthLoadingScreen';
 import axios from 'react-native-axios';  
 import HomePage from './HomePage';
 import SettingsPage from './SettingsPage';
+import Success from './Success';
+import HolidayPage from './HolidayPage';
+import CalenderPage from './CalanderPage';
+import ChartPage from './ChartPage';
+import Leave from './leave';
 
   class Routes extends React.Component {
       render() {
@@ -21,26 +27,49 @@ import SettingsPage from './SettingsPage';
 }
 
 const HomeTab = createBottomTabNavigator({
-    Home: { screen: HomePage, 
-   },
-    Attendence: { screen: SettingsPage },
-  }, {
+   
+    Attendence : {screen: Leave, navigationOptions:{ tabBarIcon : ({tintColor}) =>(
+      <Feather name="user-check" size={29} color={tintColor} />
+     ) }},
+     Calender : {screen: CalenderPage, navigationOptions:{ tabBarIcon : ({tintColor}) =>(
+      <Ionicons name="md-calendar" size={32} color={tintColor} />
+     ) }},Home: {screen: HomePage, headerTitleStyle:{alignSelf: 'center'} , navigationOptions:{
+     
+      tabBarIcon : ({tintColor}) =>(
+       <Ionicons name="md-home" size={34} color={tintColor} />
+      )
+    } }, 
+     Chart : {screen: ChartPage, navigationOptions:{  tabBarIcon : ({tintColor}) =>(
+      <MaterialCommunityIcons name="chart-pie" size={32} color={tintColor} />
+     ) }},
+     Holiday : {screen: HolidayPage, navigationOptions:{ tabBarIcon : ({tintColor}) =>(
+      <FontAwesome name="calendar-check-o" size={28} color={tintColor} />
+     ) }},
+     },
+     {
+      initialRouteName: 'Home',
     animationEnabled: true,
     swipeEnabled: true,    
     tabBarOptions: {
-
-        showLabel: true, // hide labels
-        activeTintColor: '#F8F8F8', // active icon color
-        inactiveTintColor: '#586589',  // inactive icon color
+      
+        showLabel: false, // hide labels
+        activeTintColor: '#0000ff', // active icon color
+        inactiveTintColor: '#0c1d40',  // inactive icon color
         style: {
-            backgroundColor: '#171F33' // TabBar background
+            backgroundColor: 'white' // TabBar background
         }
     }
 }
 
 );
+const Attendence = createStackNavigator({ SettingsPage: SettingsPage, Success: Success, AttendenceScreen:AttendenceScreen },
+  {
+    navigationOptions:{
+      header:null,
+      gesturesEnabled: false,
+   } });
 
-const AppStack = createStackNavigator({ Home: HomeTab, Other: AttendenceScreen },
+const AtendenceStack = createStackNavigator({ Home: HomeTab },
   {
     navigationOptions:{
       header:null,
@@ -57,7 +86,7 @@ const AuthStack = createStackNavigator({ SignIn: Login },
 const AppNavigation =  createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppStack,
+    App: HomeTab,
     Auth: AuthStack,
   },
   {

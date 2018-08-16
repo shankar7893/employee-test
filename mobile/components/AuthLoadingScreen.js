@@ -6,7 +6,7 @@ import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpa
    StatusBar,ToastAndroid } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation';
 import { Container, Header, Content, Accordion, Thumbnail } from "native-base";
-import Home from './Home';
+
 
 import axios from 'react-native-axios'; 
 
