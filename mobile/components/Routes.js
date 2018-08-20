@@ -29,29 +29,31 @@ import Leave from './leave';
 const HomeTab = createBottomTabNavigator({
    
     Attendence : {screen: Leave, navigationOptions:{ tabBarIcon : ({tintColor}) =>(
-      <Feather name="user-check" size={29} color={tintColor} />
+      <Feather name="user-check" size={30} color={tintColor} />
      ) }},
      Calender : {screen: CalenderPage, navigationOptions:{ tabBarIcon : ({tintColor}) =>(
-      <Ionicons name="md-calendar" size={32} color={tintColor} />
+      <FontAwesome name="calendar" size={30} color={tintColor} />
      ) }},Home: {screen: HomePage, headerTitleStyle:{alignSelf: 'center'} , navigationOptions:{
      
       tabBarIcon : ({tintColor}) =>(
-       <Ionicons name="md-home" size={34} color={tintColor} />
+       <Ionicons name="md-home" size={30} color={tintColor} />
       )
     } }, 
      Chart : {screen: ChartPage, navigationOptions:{  tabBarIcon : ({tintColor}) =>(
-      <MaterialCommunityIcons name="chart-pie" size={32} color={tintColor} />
+      <MaterialCommunityIcons name="chart-pie" size={30} color={tintColor} />
      ) }},
      Holiday : {screen: HolidayPage, navigationOptions:{ tabBarIcon : ({tintColor}) =>(
-      <FontAwesome name="calendar-check-o" size={28} color={tintColor} />
+      <FontAwesome name="calendar-check-o" size={30} color={tintColor} />
      ) }},
      },
      {
       initialRouteName: 'Home',
     animationEnabled: true,
-    swipeEnabled: true,    
+    swipeEnabled: true,  
+      
     tabBarOptions: {
       
+      indicatorStyle: {shadowColor:'black',shadowOffset:{height:1,width:1}, opacity: 1,shadowRadius:1 },
         showLabel: false, // hide labels
         activeTintColor: '#0000ff', // active icon color
         inactiveTintColor: '#0c1d40',  // inactive icon color

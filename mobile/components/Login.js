@@ -3,7 +3,7 @@ import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpa
    KeyboardAvoidingView, AsyncStorage, TouchableWithoutFeedback,Keyboard, Platform,} from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { Container, Header, Content, Form, Item, Input, Label } from 'native-base';
-import 'css-to-react-native';
+
 
 import axios from 'react-native-axios';
 
@@ -14,7 +14,7 @@ import axios from 'react-native-axios';
       this.state = {
         username: '',
         password: '',
-  
+        errorHandle: false,
       }
 
     }
@@ -92,6 +92,7 @@ import axios from 'react-native-axios';
             onChangeText={(username) => this.setState({ username })} style={{fontSize:13}}
              />
             </Item>
+           {this.state.errorHandle ? <Text style={{color:'red',fontSize:11,marginLeft:10 }} >Employee ID or Password entered is Invalid</Text> : null }
             <Item floatingLabel style={styles.input} >
               
               <Input placeholderTextColor='lightgray' placeholder='Enter your password' value={this.state.password}
@@ -107,26 +108,33 @@ import axios from 'react-native-axios';
           
           <View style={{alignItems:'center',justifyContent:'flex-start' ,flex:2}} >
         <TouchableOpacity onPress={async () =>
-        axios.post('http://192.168.0.168:5000/', {
-            username: this.state.username,
+       
+        axios.post('http://192.168.0.168:5000', {
+            empid: this.state.username,
             password: this.state.password,
           })
-          .then(res => {
-        
-            AsyncStorage.setItem('userToken', res.data.username);
-            AsyncStorage.setItem('userPassword', res.data.password);
-            
-           console.log(res.data.firstname);
-            if(res.data.firstname != null){
+          .then(async res => {
+             if(res.data.status==='true'){
+          await AsyncStorage.setItem('employeeId', res.data.employee_id);
+         // await AsyncStorage.setItem('companyId', res.data.company_id);
+             };
+         
+            if(res.data.employee_id != null){
             //  await AsyncStorage.setItem('user', res.data.fristname);
             
               navigate('App');
               
             }
+            else {
+             this.setState({errorHandle : true });
+            }
           }).catch((error)=>{
             console.log("Api call error");
+            this.setState({errorHandle: true });
             alert(error.message);
-         }) } 
+         })
+       
+        } 
         
         style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
         alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'

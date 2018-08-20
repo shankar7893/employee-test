@@ -10,12 +10,8 @@ import axios from 'react-native-axios';
       render() {
           return(
               <View style={{alignItems:'center', justifyContent:'center', flex:1}} >
-              <Text>Chart</Text>
-              <Button danger full 
-        // this.props.navigation.goBack();
-     
-     ><Text>Fail Retry</Text>
-      </Button>
+              <Text> App Building is under process sorry....</Text>
+              
           </View>
           );
       }

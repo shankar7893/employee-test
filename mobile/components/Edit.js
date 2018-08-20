@@ -63,7 +63,7 @@ class Edit extends React.Component {
 
                     
                     <Text style={{color:'#cacaca'}} >{this.state.empData.employee_id}</Text>
-                    {this.state.phoneNo ? <TextInput value={this.state.empData.mobileno.toString()} style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
+                    {this.state.phoneNo ? <TextInput underlineColorAndroid='transparent' value={this.state.empData.mobileno.toString()} style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'gray',borderBottomWidth:1}} >
                       <Text>{this.state.empData.mobileno}</Text>
                      <Entypo name='edit' size={20} color={'gray'} onPress = {  () => {
@@ -71,7 +71,7 @@ class Edit extends React.Component {
        
      } } />
                     </View> }
-                    {this.state.username ? <TextInput value={this.state.empData.username.toString()}  style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
+                    {this.state.username ? <TextInput underlineColorAndroid='transparent' value={this.state.empData.username.toString()}  style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'gray',borderBottomWidth:1}} >
                       <Text>{this.state.empData.username}</Text>
                      <Entypo name='edit' size={20} color={'gray'} onPress = {  () => {
@@ -79,7 +79,7 @@ class Edit extends React.Component {
        
      } } />
                     </View> }
-                    {this.state.password ? <TextInput value={this.state.empData.password.toString()}  style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
+                    {this.state.password ? <TextInput underlineColorAndroid='transparent' value={this.state.empData.password.toString()}  style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'gray',borderBottomWidth:1}} >
                       <Text>{this.state.empData.password}</Text>
                      <Entypo name='edit' size={20} color={'gray'} onPress = {  () => {
@@ -97,7 +97,7 @@ class Edit extends React.Component {
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,
                    borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >
-                  <Text style={{color:'white'}} >Submit</Text> 
+                  <Text style={{color:'white'}} >Update</Text> 
                   </TouchableOpacity>
                   </View>
                   </KeyboardAvoidingView>
