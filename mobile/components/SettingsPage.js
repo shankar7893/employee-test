@@ -17,7 +17,12 @@ import AttendenceScreen from './AttendenceScreen';
         };
       }
       
-      componentDidMount() {
+     async componentDidMount() {
+        const unique_id =   await AsyncStorage.getItem('uniqueId'); 
+        if(unique_id != null ) {
+          this.props.navigation.navigate('Success');
+        };
+        if(unique_id == null){
         navigator.geolocation.getCurrentPosition(
            (position) => {
             
@@ -41,7 +46,7 @@ import AttendenceScreen from './AttendenceScreen';
              this.setState({ error: error.message })},
            { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
           );
-          
+        }
         }
         render() {
           return (

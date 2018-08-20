@@ -12,28 +12,47 @@ class Edit extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-          
-            empData: [],
+          employee_Id: '' ,
+          email : '' ,
+          companyId : '',
+          phoneNumber : 1 ,
+          workinglocation : '',
+          firstname : '',
+          lastname : '',
+          imageurl : 'x' ,
             phoneNo:false,
             username:false,
-            password:false,
+            passwordCheck:false,
         }
       
     }
-    async componentDidMount (){
-        let username = await AsyncStorage.getItem('userToken');
-       let password = await AsyncStorage.getItem('userPassword');
-       
-      
-                             
-     axios.post('http://192.168.0.168:5000/', {
-       username: username,
-       password: password
-     }).then(res => {
+   
+async componentDidMount (){
+  const employeeId = await AsyncStorage.getItem('employeeId');
+  const companyId = await AsyncStorage.getItem('companyId');
+    
+   
+                          
+  axios.post('http://192.168.0.130/pasta/api/getempdetails', {
+    empid: employeeId,
+    cmpid: companyId,
+  }).then(async res => {
+   let c  = res.data;
+   
+     this.setState({ 
+       employeeId : c.employee_id,
+       companyId: c.company_id,
+       email : c.email,
+       phoneNumber : c.mobileno,
+       workinglocation : c.workinglocation,
+       firstname : c.firstname,
+       lastname : c.lastname,
+       imageurl : c.imageurl,
+       password: c.password,
+      });
      
-        this.setState({ empData: res.data });
-     })
-   };
+    })
+};
 
     render() {
         return(
@@ -55,44 +74,60 @@ class Edit extends React.Component {
 <KeyboardAvoidingView style={{flex:1}} >
 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={{alignItems:'center',justifyContent:'center',flex:4}} >
-                    <Thumbnail source={require('../assets/Icons/profile.png')} style={{height:80,width:80,borderRadius:40 }} />
+                    <Thumbnail source={{uri: this.state.imageurl }} style={{height:80,width:80,borderRadius:40 }} />
                     <Entypo name="camera" color="gray" size={25} style={{ position: 'absolute',paddingBottom: 45,paddingLeft: 65, }} />
-                    <Text style={{fontSize:16}} >{this.state.empData.firstname} {this.state.empData.lastname}</Text>
+                    <Text style={{fontSize:16}} >{this.state.firstname} {this.state.lastname}</Text>
                     </View></TouchableWithoutFeedback>
                     <View style={{flex:3,justifyContent:'space-between' , marginTop:15,marginLeft:25,marginRight:10 }} >
 
                     
-                    <Text style={{color:'#cacaca'}} >{this.state.empData.employee_id}</Text>
-                    {this.state.phoneNo ? <TextInput underlineColorAndroid='transparent' value={this.state.empData.mobileno.toString()} style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
+                    <Text style={{color:'#cacaca'}} >{this.state.employee_Id}</Text>
+                    {this.state.phoneNo ? <TextInput underlineColorAndroid='transparent' value={this.state.phoneNumber} 
+                     onChangeText={(phoneNumber) => this.setState({  phoneNumber }) } style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'gray',borderBottomWidth:1}} >
-                      <Text>{this.state.empData.mobileno}</Text>
+                      <Text>{this.state.phoneNumber}</Text>
                      <Entypo name='edit' size={20} color={'gray'} onPress = {  () => {
        this.setState({phoneNo:true})
        
      } } />
                     </View> }
-                    {this.state.username ? <TextInput underlineColorAndroid='transparent' value={this.state.empData.username.toString()}  style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
+                    {this.state.username ? <TextInput underlineColorAndroid='transparent' value={this.state.email} 
+                     onChangeText={(email) => this.setState({  email }) } style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'gray',borderBottomWidth:1}} >
-                      <Text>{this.state.empData.username}</Text>
+                      <Text>{this.state.email}</Text>
                      <Entypo name='edit' size={20} color={'gray'} onPress = {  () => {
        this.setState({username:true})
        
      } } />
                     </View> }
-                    {this.state.password ? <TextInput underlineColorAndroid='transparent' value={this.state.empData.password.toString()}  style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
+                    {this.state.passwordCheck ? <TextInput underlineColorAndroid='transparent' value={this.state.password.toString()}
+                     onChangeText={(password) => this.setState({  password }) }  style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'gray',borderBottomWidth:1}} >
-                      <Text>{this.state.empData.password}</Text>
+                      <Text>{this.state.password}</Text>
                      <Entypo name='edit' size={20} color={'gray'} onPress = {  () => {
-       this.setState({password:true})
+       this.setState({passwordCheck:true})
        
      } } />
                     </View> }
                     
-                    <Text style={{color:'#cacaca'}} >Hyderabad</Text>
+                    <Text style={{color:'#cacaca'}} >{this.state.workinglocation}</Text>
                  
                     </View>
-                    <View style={{flex:3,justifyContent:'center',alignItems:'center'}} >
-                  <TouchableOpacity onPress={()=>{this.props.navigation.navigate('HomePage')}}
+                    <View style={{flex:3,justifyContent:'flex-start' ,alignItems:'center'}} >
+                  <TouchableOpacity onPress={()=>{async () => {
+                      axios.post('http://192.168.0.130/pasta/api/updateemployeeprofile', {
+                       company_id : this.state.companyId ,
+                       emp_id : this.state.employeeId ,
+                       email_id: this.state.email ,
+                       phone_no : this.state.phoneNumber ,
+                       password :  this.state.password,
+                       image_url : this.state.imageurl ,
+                   }).then(res => {
+                     console.log(res.data);
+                   }).catch(error => {
+                     console.log(error.message);
+                   } )
+                  }}}
                   style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,

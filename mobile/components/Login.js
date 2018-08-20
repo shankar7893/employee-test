@@ -89,7 +89,9 @@ import axios from 'react-native-axios';
             <Item floatingLabel style={styles.input} >
               
               <Input   value={this.state.username}  placeholderTextColor='lightgray' placeholder='Enter your employee id'
-            onChangeText={(username) => this.setState({ username })} style={{fontSize:13}}
+            onChangeText={(username) => this.setState({ username })
+         
+          } style={{fontSize:13}}
              />
             </Item>
            {this.state.errorHandle ? <Text style={{color:'red',fontSize:11,marginLeft:10 }} >Employee ID or Password entered is Invalid</Text> : null }
@@ -109,14 +111,14 @@ import axios from 'react-native-axios';
           <View style={{alignItems:'center',justifyContent:'flex-start' ,flex:2}} >
         <TouchableOpacity onPress={async () =>
        
-        axios.post('http://192.168.0.168:5000', {
+        axios.post('http://192.168.0.130/pasta/api/authenticateemployee', {
             empid: this.state.username,
             password: this.state.password,
           })
           .then(async res => {
              if(res.data.status==='true'){
           await AsyncStorage.setItem('employeeId', res.data.employee_id);
-         // await AsyncStorage.setItem('companyId', res.data.company_id);
+          await AsyncStorage.setItem('companyId', res.data.company_id);
              };
          
             if(res.data.employee_id != null){

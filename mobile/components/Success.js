@@ -13,29 +13,38 @@ import axios from 'react-native-axios';
         
         
         this.state = {
-            
-         curTime :   `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()} ${new Date().getUTCHours()+5}:${new Date().getUTCMinutes()}:${new Date().getUTCSeconds()} ` ,
-        
+        unique_id:'' , 
+         curTime : `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
+        //`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()} ${new Date().getUTCHours()+5}:${new Date().getUTCMinutes()}:${new Date().getUTCSeconds()} ` ,
         }
     }
     async componentDidMount() {
       const employeeId = await AsyncStorage.getItem('employeeId');
   const companyId = await AsyncStorage.getItem('companyId');
-  const  departmentId = await AsyncStorage.getItem('departmentId');      
-        
-console.log(this.state.curTime);
+  const  departmentId = await AsyncStorage.getItem('departmentId'); 
+       
+    const unique_id =   await AsyncStorage.getItem('uniqueId');  
+    
+        if(unique_id == null ) 
          axios.post('http://192.168.0.130/pasta/api/markattendance', {
           empid: employeeId,
           company_id: companyId,
           dept_id: departmentId,
-          att_date : '2018-06-28 12:29:30' ,
-          }).then((res) => {
-            console.log(res.data);
+          att_date : this.state.curTime ,
+          }).then( async res => {
+            
+            
+            await AsyncStorage.setItem('uniqueId', res.data.unique_att_id);
+
+          console.log(res.data.unique_att_id);
           }).catch((error)=>{
             console.log(error);
             alert(error.message);
          })
+         console.log(this.state.curTime);
       }
+      
+   
       render() {
           return(
             <Container>
@@ -65,7 +74,22 @@ console.log(this.state.curTime);
             <Text>{this.state.curTime}</Text>
           </View>
           <View style={{flex:1,justifyContent:'flex-start'}}>
-          <TouchableOpacity onPress={console.log('leaving out')}
+          <TouchableOpacity onPress={ async () => {
+           console.log( await AsyncStorage.getItem('uniqueId')) ;
+        axios.post('http://192.168.0.130/pasta/api/employeeleaveout', {
+          
+          att_unique_id : await AsyncStorage.getItem('uniqueId'),
+          leave_out_status : 'true' ,
+        } ).then(res  => {
+          console.log(res.data);
+        }).catch(error => {
+          console.log(error.message);
+        })
+         await AsyncStorage.removeItem('uniqueId');
+          console.log('removed');
+       
+      
+          } }
                   style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,

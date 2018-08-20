@@ -18,6 +18,9 @@ class Leave extends React.Component {
     fromDate: '' ,
     toDate: '',
     reason: false,
+    minToDate : null ,
+    reason : '',
+    leavesLeft : '',
   }
       
     }
@@ -28,17 +31,18 @@ class Leave extends React.Component {
   _hideToDateTimePicker = () => this.setState({ isToDateTimePickerVisible: false });
  
   _handleDatePicked = (date) => {
-    this.setState({fromDate : ` ${date.getDate()}-${date.getMonth()}-${date.getFullYear()} ` }	 );
-    
+    this.setState({fromDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` }	 );
+    this.setState({minToDate: date});
     this._hideFromDateTimePicker();
   };
   _handleToDatePicked = (date) => {
-    this.setState({toDate : ` ${date.getDate()}-${date.getMonth()}-${date.getFullYear()} ` }	 );
+    this.setState({toDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` }	 );
    
     this._hideToDateTimePicker();
   };
     async componentDidMount (){
         let username = await AsyncStorage.getItem('userToken');
+        this.setState({leavesLeft: await AsyncStorage.getItem('leavesLeft') });
     };
 
     render() {
@@ -62,7 +66,7 @@ class Leave extends React.Component {
            <Text>p10001</Text>
            <View style={{flexDirection:'column',alignItems:'center' }} >
            <Text style={{margin:5}} >Leaves Left</Text>
-           <Text style={{color:'#1eab07',fontWeight:'bold'}} >15</Text></View>
+           <Text style={{color:'#1eab07',fontWeight:'bold'}} >{this.state.leavesLeft}</Text></View>
            </View>
           
            <View style={{ flex:1 ,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
@@ -79,6 +83,7 @@ class Leave extends React.Component {
           isVisible={this.state.isFromDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
           onCancel={this._hideFromDateTimePicker}
+          minimumDate = {this.state.minToDate}
         />
                </CardItem>
            </Card>
@@ -95,6 +100,7 @@ class Leave extends React.Component {
           isVisible={this.state.isToDateTimePickerVisible}
           onConfirm={this._handleToDatePicked}
           onCancel={this._hideToDateTimePicker}
+          minimumDate = {new Date()}
         />
                </CardItem>
            </Card>
@@ -102,11 +108,24 @@ class Leave extends React.Component {
            <View style={{flex:3, marginTop:20}} >
            <Card style={{flex:1}} >
          
-             <Text  style={{margin:10 }} >Reason..</Text>  
+             <TextInput placeholder='Reason..' value= {this.state.reason} style={{margin:10 }}  onChangeText={(text) => this.setState({  reason: text }) } />
            </Card>
            </View>
            <View style={{flex:4,alignItems:'center',justifyContent:'center'}}>
-           <TouchableOpacity onPress={()=>{this.props.navigation.navigate('SettingsPage')}}
+           <TouchableOpacity onPress={async ()=>{axios.post('http://192.168.0.130/pasta/api/leaverequest', {
+             company_id :await AsyncStorage.getItem('companyId') ,
+             emp_id :  await AsyncStorage.getItem('employeeId') ,
+             dept_id: await AsyncStorage.getItem('departmentId'),
+             from_date :this.state.fromDate ,
+             to_date:this.state.toDate ,
+             desc: this.state.reason ,
+           }).then(async res => {
+             console.log(res.data);
+             
+            
+             this.setState({leavesLeft : res.data.leaves_left });
+           })
+          }}
                   style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,
