@@ -1,25 +1,25 @@
 const validator = require("validator");
-const isEmpty = require("./is-empty");
+const MyisEmpty = require("./is-empty");
 
 module.exports = function validateLogin(data) {
   let errors = {};
 
-  data.employee_id = !isEmpty(data.employee_id) ? data.employee_id : "";
-  data.company_id = !isEmpty(data.company_id) ? data.company_id : "";
-  data.department_id = !isEmpty(data.department_id) ? data.department_id : "";
-  data.firstname = !isEmpty(data.firstname) ? data.firstname : "";
-  data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
-  data.birthdate = !isEmpty(data.birthdate) ? data.birthdate : "";
-  data.hireddate = !isEmpty(data.hireddate) ? data.hireddate : "";
-  data.age = !isEmpty(data.age) ? data.age : "";
-  data.designation = !isEmpty(data.designation) ? data.designation : "";
-  data.address = !isEmpty(data.address) ? data.address : "";
-  data.workinglocation = !isEmpty(data.workinglocation)
+  data.employee_id = !MyisEmpty(data.employee_id) ? data.employee_id : "";
+  data.company_id = !MyisEmpty(data.company_id) ? data.company_id : "";
+  data.department_id = !MyisEmpty(data.department_id) ? data.department_id : "";
+  data.firstname = !MyisEmpty(data.firstname) ? data.firstname : "";
+  data.lastname = !MyisEmpty(data.lastname) ? data.lastname : "";
+  data.birthdate = !MyisEmpty(data.birthdate) ? data.birthdate : "";
+  data.hireddate = !MyisEmpty(data.hireddate) ? data.hireddate : "";
+  data.age = !MyisEmpty(data.age) ? data.age : "";
+  data.designation = !MyisEmpty(data.designation) ? data.designation : "";
+  data.address = !MyisEmpty(data.address) ? data.address : "";
+  data.workinglocation = !MyisEmpty(data.workinglocation)
     ? data.workinglocation
     : "";
-  data.mobileno = !isEmpty(data.mobileno) ? data.mobileno : "";
-  data.username = !isEmpty(data.username) ? data.username : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
+  data.mobileno = !MyisEmpty(data.mobileno) ? data.mobileno : "";
+  data.username = !MyisEmpty(data.username) ? data.username : "";
+  data.password = !MyisEmpty(data.password) ? data.password : "";
 
   if (validator.isEmpty(data.employee_id)) {
     errors.employee_id = "employee id should not be empty";
@@ -75,6 +75,6 @@ module.exports = function validateLogin(data) {
   }
   return {
     errors,
-    isvalid: isEmpty(errors)
+    isvalid: MyisEmpty(errors)
   };
 };

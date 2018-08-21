@@ -10,10 +10,12 @@ const createEmployee = require("./routes/api/CreateEmployee");
 
 //middleware
 app.use(cors());
-app.use(express.static(__dirname + "static"));
+
+// app.use(express.static(__dirname + "static"));
+// app.set("view engine", "html");
+
 app.set("views", __dirname + "/static");
 app.engine("html", require("ejs").renderFile);
-app.set("view engine", "html");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
