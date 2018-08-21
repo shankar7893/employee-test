@@ -17,18 +17,17 @@ import Edit from './Edit';
 
     constructor(props) {
       super(props)
-
       this.state = {
           
-          empData: []
+          empData: [],
+         
       }
   }
 
 async componentDidMount (){
   const employeeId = await AsyncStorage.getItem('employeeId');
   const companyId = await AsyncStorage.getItem('companyId');
-    
-   
+  
                           
   axios.post('http://192.168.0.130/pasta/api/getempdetails', {
     empid: employeeId,
@@ -38,7 +37,9 @@ async componentDidMount (){
      this.setState({ empData: res.data });
      if(res.data.department_id) {
      await AsyncStorage.setItem('departmentId', res.data.department_id);
-   } })
+   } }).catch(error => {
+     alert('Check Your Internet Connection');
+   })
 }
 
       render()
@@ -57,7 +58,10 @@ async componentDidMount (){
       ios: {
         fontWeight: 'bold',
       },
-     
+      android : {
+        fontFamily: 'normal' ,
+        fontWeight: 'bold',
+      }
     }) }} >Pronteff IT Solutions</Label>
       
         </Body>
@@ -79,7 +83,9 @@ async componentDidMount (){
                     <Thumbnail source={{uri: this.state.empData.imageurl }} style={{height:80,width:80,borderRadius:40 }} />
                    
                     
-                      <Text style={{fontSize:16}} >{this.state.empData.firstname} {this.state.empData.lastname}</Text>
+                      <Text style={{fontSize:16, color:'#0c1d40' ,paddingBottom:5, paddingTop:10}} >{this.state.empData.firstname} {this.state.empData.lastname}</Text>
+                      <Text style={{fontSize:12, }}>{this.state.empData.designation}</Text>
+                      
                       </View>
                      
                        <View>
@@ -89,25 +95,25 @@ async componentDidMount (){
 
                     <View style={{flexDirection:'row'}} > 
                    <FontAwesome name="bookmark"  size={18} color={'gray'} />
-                    <Text style={{marginLeft:10}} >{this.state.empData.employee_id}</Text></View>
+                    <Text style={{marginLeft:10, color:'#0c1d40' }} > {this.state.empData.employee_id}</Text></View>
                     <View style={{flexDirection:'row'}} > 
                     <Feather name='phone-call' color={'gray'} size={18} />
-                    <Text style={{marginLeft:10}}>{this.state.empData.mobileno}</Text></View>
+                    <Text style={{marginLeft:10, color:'#0c1d40' }}>+91 {this.state.empData.mobileno}</Text></View>
                     <View style={{flexDirection:'row'}} > 
                     <MaterialCommunityIcons name='email' size={18} color={'gray'} />
-                    <Text style={{marginLeft:10}}>{this.state.empData.email}</Text></View>
+                    <Text style={{marginLeft:10, color:'#0c1d40' }}>{this.state.empData.email}</Text></View>
                     <View style={{flexDirection:'row'}} > 
                     <Entypo name='location-pin' size={18} color={'gray'} />
-                    <Text style={{marginLeft:10}}>{this.state.empData.workinglocation}</Text></View>
+                    <Text style={{marginLeft:10, color:'#0c1d40' }}>{this.state.empData.workinglocation}</Text></View>
                  
                     </View>
                     <View style={{flex:4,justifyContent:'flex-start' ,alignItems:'center'}} >
                   <TouchableOpacity onPress={()=>{this.props.navigation.navigate('SettingsPage')}}
-                  style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
+                  style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'#0c1d40',elevation: 2,
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,
                    borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >
-                  <Text style={{color:'white'}} >Attendence</Text>
+                  <Text style={{color:'white'}} >Attendance</Text>
                   </TouchableOpacity>
                   </View>
                   </View>

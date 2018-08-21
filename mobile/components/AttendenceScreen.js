@@ -24,11 +24,11 @@ import axios from 'react-native-axios';
 
 </Header>
                  <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
-                 <View style={{justifyContent:'center',alignItems:'center'}} >
+                 <View style={{justifyContent:'center',alignItems:'center',flex:1 }} >
                      <Image source={require('../assets/Icons/failed.png')} style={{height:Dimensions.get('window').width*0.3,width:Dimensions.get('window').width*0.3,
-              borderRadius:Dimensions.get('window').width*0.15}} />
+              borderRadius:Dimensions.get('window').width*0.15}} /></View><View style={{justifyContent:'flex-start' ,alignItems:'center',flex:1 }} >
               <Text style={{margin:10}} >Failed</Text>
-              <Text>Try with internet connection or turn on location services</Text>
+              <Text>Network problem / Turn on location</Text>
                  </View></View>
              </Container>
           );

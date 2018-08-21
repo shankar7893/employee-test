@@ -3,7 +3,7 @@ import {  Alert, TextInput, View, StyleSheet,Image,Dimensions,ActivityIndicator,
     AsyncStorage,StatusBar, Text,TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import { Container, Header, Content, Accordion, Thumbnail,Button, BackHandler } from "native-base";
-import { Ionicons,FontAwesome,MaterialCommunityIcons,
+import { Ionicons,FontAwesome,MaterialCommunityIcons,Entypo,
   Feather } from '@expo/vector-icons';
 import Login from './Login';
 import AttendenceScreen from './AttendenceScreen';
@@ -36,11 +36,11 @@ const HomeTab = createBottomTabNavigator({
      ) }},Home: {screen: HomePage, headerTitleStyle:{alignSelf: 'center'} , navigationOptions:{
      
       tabBarIcon : ({tintColor}) =>(
-       <Ionicons name="md-home" size={30} color={tintColor} />
+       <Entypo name="home" size={32} color={tintColor} />
       )
     } }, 
      Chart : {screen: ChartPage, navigationOptions:{  tabBarIcon : ({tintColor}) =>(
-      <MaterialCommunityIcons name="chart-pie" size={30} color={tintColor} />
+      <Entypo name="pie-chart" size={30} color={tintColor} />
      ) }},
      Holiday : {screen: HolidayPage, navigationOptions:{ tabBarIcon : ({tintColor}) =>(
       <FontAwesome name="calendar-check-o" size={30} color={tintColor} />
@@ -50,15 +50,18 @@ const HomeTab = createBottomTabNavigator({
       initialRouteName: 'Home',
     animationEnabled: true,
     swipeEnabled: true,  
-      
+    
     tabBarOptions: {
       
-      indicatorStyle: {shadowColor:'black',shadowOffset:{height:1,width:1}, opacity: 1,shadowRadius:1 },
+      indicatorStyle: {shadowColor:'red',shadowOffset:{height:0,width:0}, opacity: 1,shadowRadius:2 },
         showLabel: false, // hide labels
+        
         activeTintColor: '#0000ff', // active icon color
         inactiveTintColor: '#0c1d40',  // inactive icon color
+        
         style: {
-            backgroundColor: 'white' // TabBar background
+            backgroundColor: 'white', // TabBar background
+            
         }
     }
 }

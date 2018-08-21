@@ -15,6 +15,7 @@ import axios from 'react-native-axios';
         this.state = {
         unique_id:'' , 
          curTime : `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
+         timeStore : '',
         //`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()} ${new Date().getUTCHours()+5}:${new Date().getUTCMinutes()}:${new Date().getUTCSeconds()} ` ,
         }
     }
@@ -22,9 +23,9 @@ import axios from 'react-native-axios';
       const employeeId = await AsyncStorage.getItem('employeeId');
   const companyId = await AsyncStorage.getItem('companyId');
   const  departmentId = await AsyncStorage.getItem('departmentId'); 
-       
+     
     const unique_id =   await AsyncStorage.getItem('uniqueId');  
-    
+    this.setState({timeStore: await AsyncStorage.getItem('timeStore') });
         if(unique_id == null ) 
          axios.post('http://192.168.0.130/pasta/api/markattendance', {
           empid: employeeId,
@@ -35,7 +36,8 @@ import axios from 'react-native-axios';
             
             
             await AsyncStorage.setItem('uniqueId', res.data.unique_att_id);
-
+            this.setState({timeStore: new Date().toLocaleString()});
+            await AsyncStorage.setItem('timeStore',new Date().toLocaleString() );
           console.log(res.data.unique_att_id);
           }).catch((error)=>{
             console.log(error);
@@ -71,26 +73,54 @@ import axios from 'react-native-axios';
       },
      
     }),margin:10}} >Success</Text>
-            <Text>{this.state.curTime}</Text>
+            <Text>{this.state.timeStore}</Text>
           </View>
           <View style={{flex:1,justifyContent:'flex-start'}}>
           <TouchableOpacity onPress={ async () => {
-           console.log( await AsyncStorage.getItem('uniqueId')) ;
-        axios.post('http://192.168.0.130/pasta/api/employeeleaveout', {
+          const unique_id =  await AsyncStorage.getItem('uniqueId') ;
+           if(unique_id != null){
           
-          att_unique_id : await AsyncStorage.getItem('uniqueId'),
-          leave_out_status : 'true' ,
-        } ).then(res  => {
-          console.log(res.data);
-        }).catch(error => {
-          console.log(error.message);
-        })
-         await AsyncStorage.removeItem('uniqueId');
-          console.log('removed');
-       
-      
-          } }
-                  style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
+            navigator.geolocation.getCurrentPosition(
+              async (position) => {
+               
+                 if((position.coords.latitude < 17.450926) && (position.coords.latitude > 17.448955) ) {
+                  if((position.coords.longitude < 78.388429) && (position.coords.longitude > 78.385987 ) ) {
+                     // Alert.alert('HI','Noted','OK');
+                     axios.post('http://192.168.0.130/pasta/api/employeeleaveout', {
+          
+                      att_unique_id : await AsyncStorage.getItem('uniqueId'),
+                      leave_out_status : 'true' ,
+                    } ).then(res  => {
+                      console.log(res.data);
+                    
+                    }).catch(error => {
+                      console.log(error.message);
+                    })
+                     await AsyncStorage.removeItem('uniqueId');
+            
+                      console.log('removed');
+                   
+                  
+                  }
+                }
+               
+                  
+                  },
+                (error) => {
+               
+                  alert('Turn location on')} ,
+                { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+               );
+              
+              }
+              
+            }
+
+              
+                }
+
+              
+                  style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'#0c1d40',elevation: 2,
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,
                    borderRadius:10,borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >

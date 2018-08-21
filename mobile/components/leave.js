@@ -1,6 +1,6 @@
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
-   KeyboardAvoidingView, BackHandler,Platform,ToastAndroid,AsyncStorage,  Animated,ScrollView } from 'react-native';
+   KeyboardAvoidingView, BackHandler,Platform,ToastAndroid,AsyncStorage,  Animated,ScrollView,TouchableWithoutFeedback,Keyboard } from 'react-native';
 import { createBottomTabNavigator,createStackNavigator } from 'react-navigation';
 import { Container, Header, Content, Accordion, Thumbnail, Body, Title,Button, Right,Label, Card, CardItem } from "native-base";
 import { Ionicons,FontAwesome,MaterialCommunityIcons,Entypo,EvilIcons,
@@ -18,9 +18,11 @@ class Leave extends React.Component {
     fromDate: '' ,
     toDate: '',
     reason: false,
-    minToDate : null ,
+    minToDate : new Date() ,
+    checkToDate : new Date() ,
     reason : '',
-    leavesLeft : '',
+    leavesLeft : 20,
+    employeeId : '',
   }
       
     }
@@ -30,21 +32,33 @@ class Leave extends React.Component {
   _hideFromDateTimePicker = () => this.setState({ isFromDateTimePickerVisible: false });
   _hideToDateTimePicker = () => this.setState({ isToDateTimePickerVisible: false });
  
-  _handleDatePicked = (date) => {
-    this.setState({fromDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` }	 );
-    this.setState({minToDate: date});
+   _handleDatePicked = async (date) => {
+    this.setState({fromDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`}	 );
+    
+  this.setState({minToDate: date});
+  
+if(this.state.minToDate < this.state.checkToDate ) {
+  this._handleToDatePicked(date);
+}
+    
+    
+    
     this._hideFromDateTimePicker();
   };
   _handleToDatePicked = (date) => {
     this.setState({toDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` }	 );
-   
+    this.setState({checkToDate: date});
     this._hideToDateTimePicker();
   };
     async componentDidMount (){
-        let username = await AsyncStorage.getItem('userToken');
-        this.setState({leavesLeft: await AsyncStorage.getItem('leavesLeft') });
+        this.setState({leavesLeft : 20});
+        const leavesLeft = await AsyncStorage.getItem('leavesLeft');
+        if(leavesLeft != null){
+        this.setState({leavesLeft: await AsyncStorage.getItem('leavesLeft') });}
+        this.setState({employeeId :  await AsyncStorage.getItem('employeeId')  });
+        
     };
-
+  
     render() {
         return(
             <Container>
@@ -61,11 +75,12 @@ class Leave extends React.Component {
 </Body>
 
 </Header>
+<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
            <View style={{flex:1, marginLeft:20,marginRight:20}} >
                <View style={{flex:2,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
-           <Text>p10001</Text>
+           <Text>{this.state.employeeId}</Text>
            <View style={{flexDirection:'column',alignItems:'center' }} >
-           <Text style={{margin:5}} >Leaves Left</Text>
+           <Text style={{marginTop:8}} >Leaves Left</Text>
            <Text style={{color:'#1eab07',fontWeight:'bold'}} >{this.state.leavesLeft}</Text></View>
            </View>
           
@@ -75,7 +90,7 @@ class Leave extends React.Component {
                <CardItem >
                <TouchableOpacity onPress={this._showFromDateTimePicker}>
          <View  style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}} >{ this.state.fromDate === '' ?
-          <Text>From   </Text> : <Text>{this.state.fromDate}</Text> }
+          <Text style={{color:'#cacaca'}} >From   </Text> : <Text>{this.state.fromDate}</Text> }
            <EvilIcons name="calendar"  size={30} />
            </View>
         </TouchableOpacity>
@@ -83,7 +98,9 @@ class Leave extends React.Component {
           isVisible={this.state.isFromDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
           onCancel={this._hideFromDateTimePicker}
-          minimumDate = {this.state.minToDate}
+          minimumDate =  { new Date() }
+         
+        
         />
                </CardItem>
            </Card>
@@ -92,7 +109,7 @@ class Leave extends React.Component {
                <CardItem >
                <TouchableOpacity onPress={this._showToDateTimePicker}>
          <View  style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}} >{ this.state.toDate === '' ? 
-         <Text>To       </Text> : <Text>{this.state.toDate}</Text> }
+         <Text style={{color:'#cacaca'}}>To       </Text> : <Text>{this.state.toDate}</Text> }
            <EvilIcons name="calendar"  size={30} />
            </View>
         </TouchableOpacity>
@@ -100,7 +117,7 @@ class Leave extends React.Component {
           isVisible={this.state.isToDateTimePickerVisible}
           onConfirm={this._handleToDatePicked}
           onCancel={this._hideToDateTimePicker}
-          minimumDate = {new Date()}
+          minimumDate = {this.state.minToDate}
         />
                </CardItem>
            </Card>
@@ -108,7 +125,8 @@ class Leave extends React.Component {
            <View style={{flex:3, marginTop:20}} >
            <Card style={{flex:1}} >
          
-             <TextInput placeholder='Reason..' value= {this.state.reason} style={{margin:10 }}  onChangeText={(text) => this.setState({  reason: text }) } />
+             <TextInput underlineColorAndroid='transparent' placeholder='Reason..'   multiline={true}
+    numberOfLines={4} value= {this.state.reason} style={{margin:10 }}  onChangeText={(text) => this.setState({  reason: text }) } />
            </Card>
            </View>
            <View style={{flex:4,alignItems:'center',justifyContent:'center'}}>
@@ -120,13 +138,23 @@ class Leave extends React.Component {
              to_date:this.state.toDate ,
              desc: this.state.reason ,
            }).then(async res => {
-             console.log(res.data);
-             
+        
+             let x = res.data.leaves_left;
+             let y = x.toString();
+             await AsyncStorage.setItem('leavesLeft', y);
             
              this.setState({leavesLeft : res.data.leaves_left });
+             this.setState({fromDate:'' });
+             this.setState({toDate:'' });
+             this.setState({reason: ''});
+             
+           }).catch(error => {
+             alert('Please Set Date And Try Again');
            })
+
+           
           }}
-                  style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
+                  style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'#0c1d40',elevation: 2,
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,
                    borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >
@@ -134,6 +162,7 @@ class Leave extends React.Component {
                   </TouchableOpacity>
            </View>
            </View>
+           </TouchableWithoutFeedback>
            </Container>
         );
     }

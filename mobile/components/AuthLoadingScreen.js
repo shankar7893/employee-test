@@ -13,7 +13,10 @@ import axios from 'react-native-axios';
 class AuthLoadingScreen extends React.Component {
     constructor() {
       super();
-      this._bootstrapAsync();
+      
+        this._bootstrapAsync();
+      
+      
     }
   
     // Fetch the token from storage then navigate to our appropriate place

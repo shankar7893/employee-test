@@ -138,7 +138,7 @@ import axios from 'react-native-axios';
        
         } 
         
-        style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'darkblue',
+        style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'#0c1d40',elevation: 2,
         alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
          ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >
         <Text style={{color:'white'}} >Login</Text> 
