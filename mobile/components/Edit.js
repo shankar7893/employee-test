@@ -106,7 +106,7 @@ async componentDidMount (){
                     {this.state.passwordCheck ? <TextInput underlineColorAndroid='transparent' value={this.state.password.toString()} 
                      onChangeText={(text) => this.setState({  password : text }) }    style={{borderBottomWidth:1,borderBottomColor:'gray',}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'#cacaca',borderBottomWidth:1}} >
-                      <Text >{this.state.password}</Text>
+                      <Text >Password</Text>
                      <Entypo name='edit' size={20} color={'#cacaca'} onPress = {  () => {
        this.setState({passwordCheck:true})
        

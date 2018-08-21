@@ -56,8 +56,8 @@ const HomeTab = createBottomTabNavigator({
       indicatorStyle: {shadowColor:'red',shadowOffset:{height:0,width:0}, opacity: 1,shadowRadius:2 },
         showLabel: false, // hide labels
         
-        activeTintColor: '#0000ff', // active icon color
-        inactiveTintColor: '#0c1d40',  // inactive icon color
+        activeTintColor: '#0c1d40', // active icon color
+        inactiveTintColor: 'gray',  // inactive icon color
         
         style: {
             backgroundColor: 'white', // TabBar background
