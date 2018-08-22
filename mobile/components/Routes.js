@@ -1,26 +1,3 @@
-<<<<<<< HEAD
-
-import React from 'react';
-import {  Alert, TextInput, View, StyleSheet,Image,Dimensions,ActivityIndicator,
-    AsyncStorage,StatusBar, Text,TouchableOpacity,KeyboardAvoidingView } from 'react-native';
-import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import { Container, Header, Content, Accordion, Thumbnail,Button, BackHandler } from "native-base";
-import { Ionicons,FontAwesome,MaterialCommunityIcons,Entypo,
-  Feather } from '@expo/vector-icons';
-import Login from './Login';
-import AttendenceScreen from './AttendenceScreen';
-import AuthLoadingScreen from './AuthLoadingScreen';
-import axios from 'react-native-axios';  
-import HomePage from './HomePage';
-import SettingsPage from './SettingsPage';
-import Success from './Success';
-import HolidayPage from './HolidayPage';
-import CalenderPage from './CalanderPage';
-import ChartPage from './ChartPage';
-import Leave from './leave';
-
-
-=======
 import React from "react";
 import {
   Alert,
@@ -68,7 +45,6 @@ import CalenderPage from "./CalanderPage";
 import ChartPage from "./ChartPage";
 import Leave from "./leave";
 
->>>>>>> f894342cd0823ca56dd9dfabed6f09a4dbc186c2
 class Routes extends React.Component {
   render() {
     return <AppNavigation />;
@@ -136,39 +112,21 @@ const HomeTab = createBottomTabNavigator(
         shadowRadius: 1
       },
       showLabel: false, // hide labels
-<<<<<<< HEAD
       activeTintColor: "#0c1d40", // active icon color
       inactiveTintColor: "gray", // inactive icon color
       style: {
         backgroundColor: "white" // TabBar background
       }
-
-=======
-      activeTintColor: "#0000ff", // active icon color
-      inactiveTintColor: "#0c1d40", // inactive icon color
-      style: {
-        backgroundColor: "white" // TabBar background
-      }
->>>>>>> f894342cd0823ca56dd9dfabed6f09a4dbc186c2
     }
   }
 );
 const Attendence = createStackNavigator(
-<<<<<<< HEAD
   {
     SettingsPage: SettingsPage,
     Success: Success,
     AttendenceScreen: AttendenceScreen
   },
   {
-=======
-  {
-    SettingsPage: SettingsPage,
-    Success: Success,
-    AttendenceScreen: AttendenceScreen
-  },
-  {
->>>>>>> f894342cd0823ca56dd9dfabed6f09a4dbc186c2
     navigationOptions: {
       header: null,
       gesturesEnabled: false

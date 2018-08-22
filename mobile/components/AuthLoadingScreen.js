@@ -23,17 +23,9 @@ import { Container, Header, Content, Accordion, Thumbnail } from "native-base";
 import axios from "react-native-axios";
 
 class AuthLoadingScreen extends React.Component {
-<<<<<<< HEAD
-
   constructor() {
     super();
     this._bootstrapAsync();
-
-=======
-  constructor() {
-    super();
-    this._bootstrapAsync();
->>>>>>> f894342cd0823ca56dd9dfabed6f09a4dbc186c2
   }
 
   // Fetch the token from storage then navigate to our appropriate place

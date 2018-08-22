@@ -32,9 +32,10 @@ class Login extends React.Component {
     super(props);
 
     this.state = {
-      username: "",
-      password: "",
-      errorHandle: false
+      username: null,
+      password: null,
+      errorHandle: false,
+      message: null,
     };
   }
   // componentDidMount() {
@@ -124,65 +125,6 @@ class Login extends React.Component {
             style={styles.input}
           />  */}
 
-<<<<<<< HEAD
-          <Form style={{flex:1}}>
-            <Item floatingLabel style={styles.input} >
-              
-              <Input   value={this.state.username}  placeholderTextColor='lightgray' placeholder='Enter your employee id'
-            onChangeText={(username) => this.setState({ username })
-         
-          } style={{fontSize:13}}
-             />
-            </Item>
-           {this.state.errorHandle ? <Text style={{color:'red',fontSize:11,marginLeft:10 }} >Employee ID or Password entered is Invalid</Text> : null }
-            <Item floatingLabel style={styles.input} >
-              
-              <Input placeholderTextColor='lightgray' placeholder='Enter your password' value={this.state.password}
-            onChangeText={(password) => this.setState({ password }) } style={{fontSize:13}}
-           
-            secureTextEntry={true} />
-            </Item>
-          </Form>
-        
-          
-          </View></TouchableWithoutFeedback>
-          </KeyboardAvoidingView>
-          
-          <View style={{alignItems:'center',justifyContent:'flex-start' ,flex:2}} >
-        <TouchableOpacity onPress={async () =>
-       
-        axios.post('http://192.168.0.130/pasta/api/authenticateemployee', {
-            empid: this.state.username,
-            password: this.state.password,
-          })
-          .then(async res => {
-             if(res.data.status==='true'){
-          await AsyncStorage.setItem('employeeId', res.data.employee_id);
-          await AsyncStorage.setItem('companyId', res.data.company_id);
-             };
-         
-            if(res.data.employee_id != null){
-        
-              navigate('App');
-              
-            }
-            else {
-             this.setState({errorHandle : true });
-            }
-          }).catch((error)=>{
-            console.log("Api call error");
-            this.setState({errorHandle: true });
-            alert(error.message);
-         })
-       
-        } 
-        
-        style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'#0c1d40',elevation: 2,
-        alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
-         ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >
-        <Text style={{color:'white'}} >Login</Text> 
-        </TouchableOpacity>
-=======
               <Form style={{ flex: 1 }}>
                 <Item floatingLabel style={styles.input}>
                   <Input
@@ -192,12 +134,10 @@ class Login extends React.Component {
                     onChangeText={username => this.setState({ username })}
                     style={{ fontSize: 13 }}
                   />
+                  
                 </Item>
-                {this.state.errorHandle ? (
-                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
-                    Employee ID or Password entered is Invalid
-                  </Text>
-                ) : null}
+                {this.state.message=='Please enter EmployeeID' ?
+                 <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>{this.state.message}</Text> : null }
                 <Item floatingLabel style={styles.input}>
                   <Input
                     placeholderTextColor="lightgray"
@@ -207,7 +147,13 @@ class Login extends React.Component {
                     style={{ fontSize: 13 }}
                     secureTextEntry={true}
                   />
-                </Item>
+                </Item> {this.state.message=='Please enter Password' ||	this.state.message=='Please enter EmployeeId and Password' ?
+                 <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>{this.state.message}</Text> : null }
+                 {/* {this.state.errorHandle ? (
+                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
+                    Employee ID or Password entered is Invalid
+                  </Text>
+                ) : null} */}
               </Form>
             </View>
           </TouchableWithoutFeedback>
@@ -222,6 +168,7 @@ class Login extends React.Component {
         >
           <TouchableOpacity
             onPress={async () =>
+              
               axios
                 .post("http://192.168.0.130/pasta/api/authenticateemployee", {
                   //http://192.168.0.168:5000
@@ -230,6 +177,27 @@ class Login extends React.Component {
                 })
                 .then(async res => {
                   console.log(res.data);
+                 
+                  
+                  if(this.state.username == null ){
+                    
+                    if(this.state.username==null && this.state.password==null){
+                      this.setState({message: 'Please enter EmployeeId and Password'});
+                  }
+                  else {
+                    this.setState({message: 'Please enter EmployeeID'});
+                  }
+                }
+                if(this.state.password==null){
+                    
+                  if(this.state.username==null && this.state.password==null){
+                    this.setState({message: 'Please enter EmployeeId and Password'});
+                }
+                else {
+                  this.setState({message: 'Please enter Password'});
+                }
+              }
+                  
                   if (res.data.status === "true") {
                     await AsyncStorage.setItem(
                       "employeeId",
@@ -246,7 +214,7 @@ class Login extends React.Component {
 
                     navigate("App");
                   } else {
-                    this.setState({ errorHandle: true });
+                   
                   }
                 })
                 .catch(error => {
@@ -254,6 +222,7 @@ class Login extends React.Component {
                   this.setState({ errorHandle: true });
                   alert(error.message);
                 })
+                
             }
             style={{
               marginTop: Dimensions.get("window").height * 0.1,
@@ -275,7 +244,6 @@ class Login extends React.Component {
             <Text style={{ color: "white" }}>Login</Text>
           </TouchableOpacity>
         </View>
->>>>>>> f894342cd0823ca56dd9dfabed6f09a4dbc186c2
       </View>
     );
   }
@@ -298,26 +266,4 @@ const styles = StyleSheet.create({
     margin: 10,
     borderBottomColor: "lightgray"
   }
-<<<<<<< HEAD
-  export default Login;
-
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#ecf0f1',
-    },
-    input: {
-      width: Dimensions.get('window').width*0.9,
-      height: 44,
-      padding: 10,
-      borderBottomWidth: 1,
-      
-      margin: 10,
-      borderBottomColor:'lightgray'
-    },
-  });
-=======
 });
->>>>>>> f894342cd0823ca56dd9dfabed6f09a4dbc186c2

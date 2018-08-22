@@ -84,11 +84,5 @@ class AttendenceScreen extends React.Component {
     );
   }
 }
-<<<<<<< HEAD
 
 export default AttendenceScreen;
-
-=======
-
-export default AttendenceScreen;
->>>>>>> f894342cd0823ca56dd9dfabed6f09a4dbc186c2
