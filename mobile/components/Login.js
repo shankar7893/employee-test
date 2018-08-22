@@ -122,8 +122,7 @@ import axios from 'react-native-axios';
              };
          
             if(res.data.employee_id != null){
-            //  await AsyncStorage.setItem('user', res.data.fristname);
-            
+        
               navigate('App');
               
             }
@@ -167,4 +166,3 @@ import axios from 'react-native-axios';
       borderBottomColor:'lightgray'
     },
   });
-  

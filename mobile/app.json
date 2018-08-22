@@ -7,7 +7,7 @@
     "sdkVersion": "28.0.0",
     "platforms": ["ios", "android"],
     "android": {
-      "package": "com.shankar.employeetest"
+      "package": "com.pronteff.employeetest"
     },
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,9 +20,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     }

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
    KeyboardAvoidingView, BackHandler,Platform,ToastAndroid,AsyncStorage,  Animated,ScrollView,TouchableWithoutFeedback,Keyboard } from 'react-native';
@@ -51,7 +52,21 @@ if(this.state.minToDate < this.state.checkToDate ) {
     this._hideToDateTimePicker();
   };
     async componentDidMount (){
-        this.setState({leavesLeft : 20});
+      
+      const employeeId = await AsyncStorage.getItem('employeeId');
+      const companyId = await AsyncStorage.getItem('companyId');                          
+  axios.post('http://192.168.0.130/pasta/api/getempdetails', {
+    empid: employeeId,
+    cmpid: companyId,
+  }).then(async res => {
+  
+     this.setState({leavesLeft : res.data.leaves_left });
+     if(res.data.department_id) {
+     await AsyncStorage.setItem('departmentId', res.data.department_id);
+   } }).catch(error => {
+     alert('Check Your Internet Connection');
+   })
+        
         const leavesLeft = await AsyncStorage.getItem('leavesLeft');
         if(leavesLeft != null){
         this.setState({leavesLeft: await AsyncStorage.getItem('leavesLeft') });}

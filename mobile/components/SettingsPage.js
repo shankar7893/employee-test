@@ -25,7 +25,6 @@ import AttendenceScreen from './AttendenceScreen';
         if(unique_id == null){
         navigator.geolocation.getCurrentPosition(
            (position) => {
-            
              if((position.coords.latitude < 17.450926) && (position.coords.latitude > 17.448955) ) {
               if((position.coords.longitude < 78.388429) && (position.coords.longitude > 78.385987 ) ) {
                  // Alert.alert('HI','Noted','OK');
@@ -57,19 +56,19 @@ import AttendenceScreen from './AttendenceScreen';
           );
         }
       }
-      attendenceAsync = async () => {
-      if((this.state.latitude < 17.450926) && (this.state.latitude > 17.448955) ) {
-        if((this.state.longitude < 78.388429) && (this.state.longitude > 78.385987 ) ) {
-           // Alert.alert('HI','Noted','OK');
-            this.props.navigation.navigate('Success');
-        }
-      }
-      else {
-    //Alert.alert('HI','Sorry you Are Not in office try again in office','OK');
-    this.props.navigation.navigate('AttendenceScreen');
+    //   attendenceAsync = async () => {
+    //   if((this.state.latitude < 17.450926) && (this.state.latitude > 17.448955) ) {
+    //     if((this.state.longitude < 78.388429) && (this.state.longitude > 78.385987 ) ) {
+    //        // Alert.alert('HI','Noted','OK');
+    //         this.props.navigation.navigate('Success');
+    //     }
+    //   }
+    //   else {
+    // //Alert.alert('HI','Sorry you Are Not in office try again in office','OK');
+    // this.props.navigation.navigate('AttendenceScreen');
 
-      }
-    }
+    //   }
+    // }
       _signOutAsync = async () => {
         await AsyncStorage.clear();
         this.props.navigation.navigate('Auth');

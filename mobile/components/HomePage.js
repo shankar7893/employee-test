@@ -17,11 +17,19 @@ import Edit from './Edit';
 
     constructor(props) {
       super(props)
+      
       this.state = {
           
           empData: [],
          
       }
+      this.updateInHome = this.updateInHome.bind(this);
+  }
+
+  updateInHome() {
+    const itemId = this.props.navigation.getParam('itemId', 'NO-ID');
+    this.setState({empData : itemId});
+    console.log(itemId);
   }
 
 async componentDidMount (){
@@ -49,6 +57,7 @@ async componentDidMount (){
       //    return this.state.album
       //  }
       
+     
      
      
           return(

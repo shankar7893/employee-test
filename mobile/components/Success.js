@@ -1,10 +1,35 @@
-import React from 'react';
-import {  Alert, TextInput, View, StyleSheet,Image,Dimensions, Text,TouchableOpacity,
-   KeyboardAvoidingView, BackHandler,Platform,ToastAndroid,AsyncStorage } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation';
-import { Container, Header, Content, Accordion, Thumbnail, Body, Title,Button, Right,Label } from "native-base"
+import React from "react";
+import {
+  Alert,
+  TextInput,
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  BackHandler,
+  Platform,
+  ToastAndroid,
+  AsyncStorage
+} from "react-native";
+import { createBottomTabNavigator } from "react-navigation";
+import {
+  Container,
+  Header,
+  Content,
+  Accordion,
+  Thumbnail,
+  Body,
+  Title,
+  Button,
+  Right,
+  Label
+} from "native-base";
 
-import axios from 'react-native-axios';  
+import axios from "react-native-axios";
+
 
   class Success extends React.Component {
     constructor(props) {
@@ -73,6 +98,7 @@ import axios from 'react-native-axios';
       },
      
     }),margin:10}} >Success</Text>
+            <Text>Attendance submitted at</Text>
             <Text>{this.state.timeStore}</Text>
           </View>
           <View style={{flex:1,justifyContent:'flex-start'}}>
@@ -126,12 +152,12 @@ import axios from 'react-native-axios';
                    borderRadius:10,borderBottomLeftRadius:30,borderBottomRightRadius:30,borderTopLeftRadius:30,borderTopRightRadius:30 }} >
                   <Text style={{color:'white'}} >Leaving out</Text> 
                   </TouchableOpacity>
+          
+
           </View>
-          </View>
-          </Container>
-          );
-      }
-      
-    }
-      export default Success;
-      
+        </View>
+      </Container>
+    );
+  }
+}
+export default Success;

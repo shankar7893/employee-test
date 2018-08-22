@@ -85,7 +85,7 @@ async componentDidMount (){
 
                     
                     <Text style={{color:'#cacaca'}} >{this.state.employeeId}</Text>
-                    {this.state.phoneNo ? <TextInput underlineColorAndroid='transparent' value={this.state.phoneNumber} 
+                    {this.state.phoneNo ? <TextInput  maxLength={10} underlineColorAndroid='transparent' value={this.state.phoneNumber} 
                      onChangeText={(text) => this.setState({  phoneNumber : text }) } style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'#cacaca',borderBottomWidth:1}} >
                       <Text>+91 {this.state.phoneNumber}</Text>
@@ -94,7 +94,7 @@ async componentDidMount (){
        
      } } />
                     </View> }
-                    {this.state.username ? <TextInput underlineColorAndroid='transparent' value={this.state.email} 
+                    {this.state.username ? <TextInput underlineColorAndroid='transparent' value={this.state.email}  secureTextEntry={true} 
                      onChangeText={(text) => this.setState({  email : text }) } style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'#cacaca',borderBottomWidth:1}} >
                       <Text>{this.state.email}</Text>
@@ -126,9 +126,20 @@ async componentDidMount (){
                        phone_no : this.state.phoneNumber ,
                        password :  this.state.password,
                       
-                   }).then(res => {
+                   }).then(async res => {
+                    axios.post('http://192.168.0.130/pasta/api/getempdetails', {
+                      empid: await AsyncStorage.getItem('employeeId'),
+                      cmpid: await AsyncStorage.getItem('companyId'),
+                    }).then(async result => {
+                      
                      
-                     this.props.navigation.navigate('HomePage');
+                      this.props.navigation.navigate('HomePage',{
+                         changed : result.data
+                      });
+                      
+                    })
+                     
+                     
                    }).catch(error => {
                      console.log(error.message);
                    } )
