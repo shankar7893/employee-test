@@ -19,13 +19,24 @@ class Edit extends React.Component {
           workinglocation : '',
           firstname : '',
           lastname : '',
-          imageurl : 'x' ,
+          imageurl : 'y' ,
             phoneNo:false,
             username:false,
             passwordCheck:false,
+            emailValid: true,
+            message: '',
+           color: false
         }
       
     }
+    validateEmail(x) {
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      if (reg.test(x.value) == false) 
+      {
+       // this.setState({emailValid:false});
+          
+      }
+ }
    
 async componentDidMount (){
   const employeeId = await AsyncStorage.getItem('employeeId');
@@ -53,6 +64,8 @@ async componentDidMount (){
       });
      
     })
+    
+   
 };
 render() {
   return (
@@ -62,8 +75,8 @@ render() {
           <View
             style={{
               alignItems: "center",
-              justifyContent: "flex-end",
-              marginBottom: -25
+              justifyContent: "flex-end",marginBottom:-25
+             
             }}
           >
             <Label
@@ -72,7 +85,8 @@ render() {
                 ...Platform.select({
                   ios: {
                     fontWeight: "bold"
-                  }
+                  },
+                 
                 })
               }}
             >
@@ -99,7 +113,7 @@ render() {
 
                     
                     <Text style={{color:'#cacaca'}} >{this.state.employeeId}</Text>
-                    {this.state.phoneNo ? <TextInput  maxLength={10} underlineColorAndroid='transparent' value={this.state.phoneNumber} 
+                    {this.state.phoneNo ? <TextInput keyboardType= 'numeric' maxLength={10} underlineColorAndroid='transparent' value={this.state.phoneNumber} 
                      onChangeText={(text) => this.setState({  phoneNumber : text }) } style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'#cacaca',borderBottomWidth:1}} >
                       <Text>+91 {this.state.phoneNumber}</Text>
@@ -108,8 +122,9 @@ render() {
        
      } } />
                     </View> }
-                    {this.state.username ? <TextInput underlineColorAndroid='transparent' value={this.state.email}  
-                     onChangeText={(text) => this.setState({  email : text }) } style={{borderBottomWidth:1,borderBottomColor:'gray'}} /> : 
+                    {this.state.username ? <TextInput  underlineColorAndroid='transparent' value={this.state.email}  
+                     onChangeText={(text) => this.setState({  email : text }) } onBlur={this.validateEmail(this.state.email)}
+                      style={{borderBottomWidth:1,borderBottomColor:'gray'}} />  : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'#cacaca',borderBottomWidth:1}} >
                       <Text>{this.state.email}</Text>
                      <Entypo name='edit' size={20} color={'#cacaca'} onPress = {  () => {
@@ -128,11 +143,20 @@ render() {
                     </View> }
                     
                     <Text style={{color:'#cacaca',  }} >{this.state.workinglocation}</Text>
+                   {this.state.color  ?<View style={{alignItems:'center'}} ><Text style={{ color: 'green', fontSize: 11}}>
+                    {this.state.message}</Text></View> :<View style={{alignItems:'center'}} ><Text style={{ color: 'red', fontSize: 11}}>
+                    {this.state.message}</Text></View> }
                  
                     </View>
                     <View style={{flex:3,justifyContent:'flex-start' ,alignItems:'center'}} >
                   <TouchableOpacity onPress={async () => {
-                  
+                     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                     if (reg.test(this.state.email) == false) 
+                     {
+                       
+                       this.setState({message: 'Enter valid email'}); 
+                     }
+                  else{
                       axios.post('http://192.168.0.130/pasta/api/updateemployeeprofile', {
                        company_id : this.state.companyId ,
                        emp_id : this.state.employeeId ,
@@ -141,21 +165,26 @@ render() {
                        password :  this.state.password,
                       
                    }).then(async res => {
-                    axios.post('http://192.168.0.130/pasta/api/getempdetails', {
-                      empid: await AsyncStorage.getItem('employeeId'),
-                      cmpid: await AsyncStorage.getItem('companyId'),
-                    }).then(async result => {
+
+                     console.log(res.data);
+                     if(res.data.status=='true'){ 
+                      this.setState({message:res.data.message});
+                      this.setState({color: true});
+                    setTimeout(() => {
+                      this.props.navigation.goBack();
+                    },1000 )
+                    
+                       }
+                       else{
+                        this.setState({message:res.data.message})
+                       }
+                      })
+                    }
+                   
+                  }
                       
-                     
-                    this.props.navigation.goBack();
-                      
-                    })
-                     
-                     
-                   }).catch(error => {
-                     console.log(error.message);
-                   } )
-                  }}
+                   
+                  }
                   style={{marginTop:Dimensions.get('window').height*0.1,backgroundColor:'#0c1d40',elevation: 2,
                   alignItems:'center',justifyContent:'center', shadowOffset:{height:0,width:0},shadowOpacity:0.6,shadowColor:'gray'
                    ,width:Dimensions.get('window').width*0.4,height:Dimensions.get('window').height*0.06,borderRadius:10,

@@ -22,10 +22,9 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.pronteff.employeetest",
       "supportsTablet": true
-    },
-    "android": {
-      "package": "com.pronteff.employeetest"
     }
+    
   }
 }

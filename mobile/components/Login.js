@@ -127,7 +127,7 @@ class Login extends React.Component {
 
               <Form style={{ flex: 1 }}>
                 <Item floatingLabel style={styles.input}>
-                  <Input
+                  <Input 
                     value={this.state.username}
                     placeholderTextColor="lightgray"
                     placeholder="Enter your employee id"
@@ -147,7 +147,9 @@ class Login extends React.Component {
                     style={{ fontSize: 13 }}
                     secureTextEntry={true}
                   />
-                </Item> {this.state.message=='Please enter Password' ||	this.state.message=='Please enter EmployeeId and Password' ?
+                </Item> {this.state.message=='Please enter Password' ||
+                  this.state.message=='Please enter EmployeeId and Password' ||
+                   this.state.message=='EmployeeID or Password entered is invalid'  ?
                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>{this.state.message}</Text> : null }
                  {/* {this.state.errorHandle ? (
                   <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
@@ -176,7 +178,7 @@ class Login extends React.Component {
                   password: this.state.password
                 })
                 .then(async res => {
-                  console.log(res.data);
+                 
                  
                   
                   if(this.state.username == null ){
@@ -188,6 +190,11 @@ class Login extends React.Component {
                     this.setState({message: 'Please enter EmployeeID'});
                   }
                 }
+                else {
+                  if(this.state.password==null){
+                    this.setState({message: 'Please enter Password'});
+                  }
+                }
                 if(this.state.password==null){
                     
                   if(this.state.username==null && this.state.password==null){
@@ -197,6 +204,17 @@ class Login extends React.Component {
                   this.setState({message: 'Please enter Password'});
                 }
               }
+              else {
+                if(this.state.username==null){
+                  this.setState({message: 'Please enter username'});
+                }
+              }
+              if(res.data.message != null){
+              if(this.state.username!=null && this.state.password!=null){
+                
+                  this.setState({message: 'EmployeeID or Password entered is invalid'});
+                
+              }}
                   
                   if (res.data.status === "true") {
                     await AsyncStorage.setItem(

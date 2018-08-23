@@ -14,7 +14,8 @@ import {
   ToastAndroid,
   AsyncStorage,
   Animated,
-  ScrollView
+  ScrollView,
+  NetInfo
 } from "react-native";
 import {
   createBottomTabNavigator,
@@ -65,17 +66,19 @@ class HomePage extends React.Component {
     const employeeId = await AsyncStorage.getItem("employeeId");
     const companyId = await AsyncStorage.getItem("companyId");
     
-    axios
-      .post("http://192.168.0.130/pasta/api/getempdetails", {
-        empid: employeeId,
-        cmpid: companyId
-      })
-      .then(async res => {
-        this.setState({ empData: res.data });
-        if (res.data.department_id) {
-          await AsyncStorage.setItem("departmentId", res.data.department_id);
-        }
-      });
+   
+        axios
+        .post("http://192.168.0.130/pasta/api/getempdetails", {
+          empid: employeeId,
+          cmpid: companyId
+        })
+        .then(async res => {
+          this.setState({ empData: res.data });
+          if (res.data.department_id) {
+            await AsyncStorage.setItem("departmentId", res.data.department_id);
+          }
+        });
+     
 
     }
    
@@ -85,7 +88,7 @@ class HomePage extends React.Component {
     //  }
     
     return (
-      <Container>
+      <Container >
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
           <Body style={{ flex: 8, alignItems: "flex-end" }}>
             <Label
@@ -95,13 +98,18 @@ class HomePage extends React.Component {
                   ios: {
                     fontWeight: "bold"
                   }
+                
                 })
               }}
             >
               Pronteff IT Solutions
             </Label>
           </Body>
-          <Right style={{ flex: 3 }}>
+          <Right style={{ flex: 3,...Platform.select({
+            android: {
+              paddingTop:20
+            }
+          }) }}>
             <MaterialCommunityIcons
               name="account-settings-variant"
               size={24}
@@ -138,8 +146,11 @@ class HomePage extends React.Component {
                 style={{ height: 80, width: 80, borderRadius: 40 }}
               />
 
-              <Text style={{ fontSize: 16 }}>
+              <Text style={{ fontSize: 16,paddingBottom:6,paddingTop:10,color:'#0c1d40' }}>
                 {this.state.empData.firstname} {this.state.empData.lastname}
+              </Text>
+              <Text style={{ fontSize: 12,color:'#0c1d40' }}>
+                {this.state.empData.designation} 
               </Text>
             </View>
 
@@ -161,21 +172,21 @@ class HomePage extends React.Component {
           >
             <View style={{ flexDirection: "row" }}>
               <FontAwesome name="bookmark" size={18} color={"gray"} />
-              <Text style={{ marginLeft: 10 }}> {this.state.empData.employee_id}</Text>
+              <Text style={{ marginLeft: 10,color:'#0c1d40' }}> {this.state.empData.employee_id}</Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <Feather name="phone-call" color={"gray"} size={18} />
-              <Text style={{ marginLeft: 10 }}>
+              <Text style={{ marginLeft: 10 ,color:'#0c1d40'}}>
                 +91 {this.state.empData.mobileno}
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <MaterialCommunityIcons name="email" size={18} color={"gray"} />
-              <Text style={{ marginLeft: 10 }}>{this.state.empData.email}</Text>
+              <Text style={{ marginLeft: 10,color:'#0c1d40' }}>{this.state.empData.email}</Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <Entypo name="location-pin" size={18} color={"gray"} />
-              <Text style={{ marginLeft: 10 }}>
+              <Text style={{ marginLeft: 10,color:'#0c1d40' }}>
                 {this.state.empData.workinglocation}
               </Text>
             </View>
@@ -193,7 +204,7 @@ class HomePage extends React.Component {
               }}
               style={{
                 marginTop: Dimensions.get("window").height * 0.1,
-                backgroundColor: "darkblue",
+                backgroundColor: "#0c1d40",
                 alignItems: "center",
                 justifyContent: "center",
                 shadowOffset: { height: 0, width: 0 },

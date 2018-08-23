@@ -12,6 +12,11 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 class Leave extends React.Component {
     constructor(props) {
         super(props)
+        var d = new Date();
+var year = d.getFullYear();
+var month = d.getMonth();
+var day = d.getDate();
+var c = new Date(year + 1, month, day)
   this.state = {
     isFromDateTimePickerVisible: false,
     isToDateTimePickerVisible: false,
@@ -23,6 +28,7 @@ class Leave extends React.Component {
     reason : '',
     leavesLeft : 20,
     employeeId : '',
+    maxDate: c,
   }
       
     }
@@ -33,7 +39,7 @@ class Leave extends React.Component {
   _hideToDateTimePicker = () => this.setState({ isToDateTimePickerVisible: false });
  
    _handleDatePicked = async (date) => {
-    this.setState({fromDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`}	 );
+    this.setState({fromDate : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`}	 );
     
   this.setState({minToDate: date});
   
@@ -46,7 +52,7 @@ if(this.state.minToDate < this.state.checkToDate ) {
     this._hideFromDateTimePicker();
   };
   _handleToDatePicked = (date) => {
-    this.setState({toDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}` }	 );
+    this.setState({toDate : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` }	 );
     this.setState({checkToDate: date});
     this._hideToDateTimePicker();
   };
@@ -77,11 +83,12 @@ if(this.state.minToDate < this.state.checkToDate ) {
         return(
             <Container>
             <Header style={{backgroundColor:'white' ,borderBottomWidth:0}} ><Body style={{alignItems:'center',justifyContent:'flex-end'}} >
-            <View style={{alignItems:'center',justifyContent:'flex-end',marginBottom:-25}} >
+            <View style={{alignItems:'center',justifyContent:'flex-end',marginBottom:-25 }} >
             <Label style={{fontSize:18,  ...Platform.select({
       ios: {
-        fontWeight: 'bold',
+        fontWeight: "bold"
       },
+    
      
     }) }} >Leave Intimation</Label>
     <Image  style={{width:Dimensions.get('window').width*1}}  source={require('../assets/Icons/top-strip.png')} resizeMode="contain"  />
@@ -92,9 +99,9 @@ if(this.state.minToDate < this.state.checkToDate ) {
 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
            <View style={{flex:1, marginLeft:20,marginRight:20}} >
                <View style={{flex:2,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
-           <Text>{this.state.employeeId}</Text>
+           <Text style={{color:'#0c1d40'}} >{this.state.employeeId}</Text>
            <View style={{flexDirection:'column',alignItems:'center' }} >
-           <Text style={{marginTop:8}} >Leaves Left</Text>
+           <Text style={{marginTop:8,color:'#0c1d40'}} >Leaves Left</Text>
            <Text style={{color:'#1eab07',fontWeight:'bold'}} >{this.state.leavesLeft}</Text></View>
            </View>
           
@@ -113,7 +120,7 @@ if(this.state.minToDate < this.state.checkToDate ) {
           onConfirm={this._handleDatePicked}
           onCancel={this._hideFromDateTimePicker}
           minimumDate =  { new Date() }
-         
+          maximumDate={this.state.maxDate}
         
         />
                </CardItem>
@@ -132,6 +139,7 @@ if(this.state.minToDate < this.state.checkToDate ) {
           onConfirm={this._handleToDatePicked}
           onCancel={this._hideToDateTimePicker}
           minimumDate = {this.state.minToDate}
+          maximumDate={this.state.maxDate}
         />
                </CardItem>
            </Card>

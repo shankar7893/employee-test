@@ -31,7 +31,7 @@ import {
   Ionicons,
   FontAwesome,
   MaterialCommunityIcons,
-  Feather
+  Feather,Entypo
 } from "@expo/vector-icons";
 import Login from "./Login";
 import AttendenceScreen from "./AttendenceScreen";
@@ -74,7 +74,7 @@ const HomeTab = createBottomTabNavigator(
       headerTitleStyle: { alignSelf: "center" },
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="md-home" size={30} color={tintColor} />
+          <Entypo name="home" size={32} color={tintColor} />
         )
       }
     },
@@ -82,8 +82,8 @@ const HomeTab = createBottomTabNavigator(
       screen: ChartPage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <MaterialCommunityIcons
-            name="chart-pie"
+          <Entypo
+            name="pie-chart"
             size={30}
             color={tintColor}
           />

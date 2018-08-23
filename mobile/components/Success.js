@@ -12,7 +12,8 @@ import {
   BackHandler,
   Platform,
   ToastAndroid,
-  AsyncStorage
+  AsyncStorage,
+  NetInfo
 } from "react-native";
 import { createBottomTabNavigator } from "react-navigation";
 import {
@@ -42,6 +43,9 @@ import axios from "react-native-axios";
          curTime : `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
          timeStore : '',
          verifyDate :  new Date().getDate().toString(),
+         message:null,
+         attendenceSubmitted: false,
+         leftOut:false,
         //`${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()} ${new Date().getUTCHours()+5}:${new Date().getUTCMinutes()}:${new Date().getUTCSeconds()} ` ,
         }
     }
@@ -53,25 +57,41 @@ import axios from "react-native-axios";
     const unique_id =   await AsyncStorage.getItem('uniqueId');  
     this.setState({timeStore: await AsyncStorage.getItem('timeStore') });
     const checkDate =   await AsyncStorage.getItem('checkDate'); 
+    const attendenceSubmitted =  await AsyncStorage.getItem('attendenceSubmitted'); 
+    if(attendenceSubmitted=='true'){
+      this.setState({message:'Attendence already submitted at'});
+
+    }
+    else{
+      this.setState({message:'You left out for the day at'});
+    }
+
+
+    
         if(unique_id == null &&(this.state.verifyDate != checkDate ||	checkDate == null ) ) {
-         axios.post('http://192.168.0.130/pasta/api/markattendance', {
-          empid: employeeId,
-          company_id: companyId,
-          dept_id: departmentId,
-          att_date : this.state.curTime ,
-          }).then( async res => {
-            
-            
-            await AsyncStorage.setItem('uniqueId', res.data.unique_att_id);
-            this.setState({timeStore: new Date().toLocaleString()});
-            await AsyncStorage.setItem('timeStore',new Date().toLocaleString() );
-          console.log(res.data.unique_att_id);
-          }).catch((error)=>{
-            console.log(error);
-            alert(error.message);
-         })
-        }
-         console.log(this.state.curTime);
+          axios.post('http://192.168.0.130/pasta/api/markattendance', {
+           empid: employeeId,
+           company_id: companyId,
+           dept_id: departmentId,
+           att_date : this.state.curTime ,
+           }).then( async res => {
+             
+             this.setState({message: res.data.message});
+             await AsyncStorage.setItem('uniqueId', res.data.unique_att_id);
+             await AsyncStorage.setItem('attendenceSubmitted', 'true');
+             this.setState({timeStore: new Date().toLocaleString()});
+             await AsyncStorage.setItem('timeStore',new Date().toLocaleString() );
+           console.log(res.data.unique_att_id);
+           }).catch((error)=>{
+             console.log(error);
+             alert(error.message);
+          })
+         }
+      
+    
+    
+       
+        
       }
       
    
@@ -81,9 +101,10 @@ import axios from "react-native-axios";
             <Header style={{backgroundColor:'white' ,borderBottomWidth:0}} ><Body style={{alignItems:'center',justifyContent:'flex-end'}} >
             <View style={{alignItems:'center',justifyContent:'flex-end',marginBottom:-25}} >
             <Label style={{fontSize:18,  ...Platform.select({
-      ios: {
-        fontWeight: 'bold',
-      },
+     ios: {
+      fontWeight: "bold"
+    },
+   
      
     }) }} >Attendence</Label>
     <Image  style={{width:Dimensions.get('window').width*1}}  source={require('../assets/Icons/top-strip.png')} resizeMode="contain"  />
@@ -101,12 +122,13 @@ import axios from "react-native-axios";
       },
      
     }),margin:10}} >Success</Text>
-            <Text>Attendance submitted at</Text>
+            <Text>{this.state.message}</Text>
             <Text>{this.state.timeStore}</Text>
           </View>
           <View style={{flex:1,justifyContent:'flex-start'}}>
           <TouchableOpacity onPress={ async () => {
           const unique_id =  await AsyncStorage.getItem('uniqueId') ;
+          
            if(unique_id != null){
           
             navigator.geolocation.getCurrentPosition(
@@ -120,9 +142,13 @@ import axios from "react-native-axios";
                       att_unique_id : await AsyncStorage.getItem('uniqueId'),
                       leave_out_status : 'true' ,
                     } ).then(async res  => {
+                      await AsyncStorage.setItem('attendenceSubmitted', 'false');
                       let x = new Date().getDate();
+                      this.setState({timeStore: new Date().toLocaleString()});
+                      await AsyncStorage.setItem('timeStore',new Date().toLocaleString() );
             await AsyncStorage.setItem('checkDate', x.toString());
-                      console.log(res.data);
+                      this.setState({message: res.data.message});
+                     
                     
                     }).catch(error => {
                       console.log(error.message);

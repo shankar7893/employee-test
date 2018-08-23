@@ -49,6 +49,7 @@ class AttendenceScreen extends React.Component {
                     ios: {
                       fontWeight: "bold"
                     }
+                    
                   })
                 }}
               >
@@ -65,7 +66,7 @@ class AttendenceScreen extends React.Component {
         <View
           style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
         >
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View style={{ justifyContent: "center", alignItems: "center" ,flex:1 }}>
             <Image
               source={require("../assets/Icons/failed.png")}
               style={{
@@ -73,10 +74,10 @@ class AttendenceScreen extends React.Component {
                 width: Dimensions.get("window").width * 0.3,
                 borderRadius: Dimensions.get("window").width * 0.15
               }}
-            />
+            /></View><View style={{ justifyContent:'flex-start' , alignItems: "center",flex:1 }}>
             <Text style={{ margin: 10 }}>Failed</Text>
             <Text>
-              Try with internet connection or turn on location services
+              No internet connection / On location services
             </Text>
           </View>
         </View>
