@@ -68,11 +68,12 @@ class HomePage extends React.Component {
     
    
         axios
-        .post("http://192.168.0.130/pasta/api/getempdetails", {
+        .post("https://pronteff.com/Prontee/api/getempdetails", {
           empid: employeeId,
           cmpid: companyId
         })
         .then(async res => {
+        
           this.setState({ empData: res.data });
           if (res.data.department_id) {
             await AsyncStorage.setItem("departmentId", res.data.department_id);
@@ -97,6 +98,10 @@ class HomePage extends React.Component {
                 ...Platform.select({
                   ios: {
                     fontWeight: "bold"
+                  },
+                  android: {
+                    fontFamily: 'normal',
+                    fontWeight: 'bold',
                   }
                 
                 })
@@ -105,11 +110,7 @@ class HomePage extends React.Component {
               Pronteff IT Solutions
             </Label>
           </Body>
-          <Right style={{ flex: 3,...Platform.select({
-            android: {
-              paddingTop:20
-            }
-          }) }}>
+          <Right style={{ flex: 3}}>
             <MaterialCommunityIcons
               name="account-settings-variant"
               size={24}
@@ -146,10 +147,20 @@ class HomePage extends React.Component {
                 style={{ height: 80, width: 80, borderRadius: 40 }}
               />
 
-              <Text style={{ fontSize: 16,paddingBottom:6,paddingTop:10,color:'#0c1d40' }}>
+              <Text style={{ fontSize: 15,paddingBottom:6,paddingTop:10,color:'#0c1d40',
+                ...Platform.select({
+                  ios: {
+                    fontWeight: "bold"
+                  },
+                  android: {
+                    fontFamily: 'normal',
+                    fontWeight: 'bold',
+                  }
+                
+                }) }}>
                 {this.state.empData.firstname} {this.state.empData.lastname}
               </Text>
-              <Text style={{ fontSize: 12,color:'#0c1d40' }}>
+              <Text style={{ fontSize: 12,color:'gray' }}>
                 {this.state.empData.designation} 
               </Text>
             </View>

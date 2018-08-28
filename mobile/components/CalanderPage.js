@@ -8,6 +8,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import axios from 'react-native-axios';  
 
   class CalenderPage extends React.Component {
+  
       render() {
           return(
             <View style={{marginTop:40}} >

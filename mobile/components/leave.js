@@ -16,7 +16,8 @@ class Leave extends React.Component {
 var year = d.getFullYear();
 var month = d.getMonth();
 var day = d.getDate();
-var c = new Date(year + 1, month, day)
+var c = new Date(year + 1, month, day);
+var check = `$(d.getMonth()+1)$(d.getDate())`;
   this.state = {
     isFromDateTimePickerVisible: false,
     isToDateTimePickerVisible: false,
@@ -24,9 +25,9 @@ var c = new Date(year + 1, month, day)
     toDate: '',
     reason: false,
     minToDate : new Date() ,
-    checkToDate : new Date() ,
+    checkToDate : check ,
     reason : '',
-    leavesLeft : 20,
+    leavesLeft : '',
     employeeId : '',
     maxDate: c,
   }
@@ -39,11 +40,19 @@ var c = new Date(year + 1, month, day)
   _hideToDateTimePicker = () => this.setState({ isToDateTimePickerVisible: false });
  
    _handleDatePicked = async (date) => {
-    this.setState({fromDate : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`}	 );
+    if(date.getMonth()+1 <10){
+    this.setState({fromDate : `${date.getFullYear()}-0${date.getMonth()+1}-${date.getDate()}`}	 );}
+else{
+  this.setState({fromDate : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`}	 );
+}
     
+
   this.setState({minToDate: date});
-  
-if(this.state.minToDate < this.state.checkToDate ) {
+  let checking = this.state.minToDate;
+  let checkingday = `${checking.getMonth()+1}${checking.getDate()}`;
+ 
+if(checkingday < this.state.checkToDate ) {
+  console.log('hello');
   this._handleToDatePicked(date);
 }
     
@@ -52,15 +61,21 @@ if(this.state.minToDate < this.state.checkToDate ) {
     this._hideFromDateTimePicker();
   };
   _handleToDatePicked = (date) => {
-    this.setState({toDate : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` }	 );
-    this.setState({checkToDate: date});
+    if(date.getMonth()+1 <10){
+      
+    this.setState({toDate : `${date.getFullYear()}-0${date.getMonth()+1}-${date.getDate()}` }	 );}
+    else{
+      this.setState({toDate : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}` }	 );
+    }
+    let set = `${date.getMonth()+1}${date.getDate()}`;
+    this.setState({checkToDate: set});
     this._hideToDateTimePicker();
   };
     async componentDidMount (){
-      
+    
       const employeeId = await AsyncStorage.getItem('employeeId');
       const companyId = await AsyncStorage.getItem('companyId');                          
-  axios.post('http://192.168.0.130/pasta/api/getempdetails', {
+  axios.post('https://pronteff.com/Prontee/api/getempdetails', {
     empid: employeeId,
     cmpid: companyId,
   }).then(async res => {
@@ -78,19 +93,27 @@ if(this.state.minToDate < this.state.checkToDate ) {
         this.setState({employeeId :  await AsyncStorage.getItem('employeeId')  });
         
     };
+   
   
     render() {
         return(
             <Container>
             <Header style={{backgroundColor:'white' ,borderBottomWidth:0}} ><Body style={{alignItems:'center',justifyContent:'flex-end'}} >
             <View style={{alignItems:'center',justifyContent:'flex-end',marginBottom:-25 }} >
-            <Label style={{fontSize:18,  ...Platform.select({
-      ios: {
-        fontWeight: "bold"
-      },
+            <Label style={{fontSize:18,
+                ...Platform.select({
+                  ios: {
+                    fontWeight: "bold"
+                  },
+                  android: {
+                    fontFamily: 'normal',
+                    fontWeight: 'bold',
+                  }
+                
+                })
     
      
-    }) }} >Leave Intimation</Label>
+     }} >Leave Intimation</Label>
     <Image  style={{width:Dimensions.get('window').width*1}}  source={require('../assets/Icons/top-strip.png')} resizeMode="contain"  />
 </View>
 </Body>
@@ -152,7 +175,7 @@ if(this.state.minToDate < this.state.checkToDate ) {
            </Card>
            </View>
            <View style={{flex:4,alignItems:'center',justifyContent:'center'}}>
-           <TouchableOpacity onPress={async ()=>{axios.post('http://192.168.0.130/pasta/api/leaverequest', {
+           <TouchableOpacity onPress={async ()=>{axios.post('https://pronteff.com/Prontee/api/leaverequest', {
              company_id :await AsyncStorage.getItem('companyId') ,
              emp_id :  await AsyncStorage.getItem('employeeId') ,
              dept_id: await AsyncStorage.getItem('departmentId'),
@@ -160,7 +183,8 @@ if(this.state.minToDate < this.state.checkToDate ) {
              to_date:this.state.toDate ,
              desc: this.state.reason ,
            }).then(async res => {
-        
+            
+             console.log(res.data);
              let x = res.data.leaves_left;
              let y = x.toString();
              await AsyncStorage.setItem('leavesLeft', y);
@@ -171,7 +195,21 @@ if(this.state.minToDate < this.state.checkToDate ) {
              this.setState({reason: ''});
              
            }).catch(error => {
-             alert('Please Set Date And Try Again');
+             if(!(this.state.fromDate=='' && this.state.toDate=='' && this.state.reason=='' ) ){
+           if(!(this.state.toDate=='' && this.state.reason=='')){
+            if(!(this.state.reason=='' || this.state.toDate=='')){
+              if(this.state.fromDate==''){alert('Please set from date and try again');}}}else{alert('Please set reason , to date and try again')}
+           if(!(this.state.fromDate=='' && this.state.reason=='')){
+             if(!(this.state.fromDate=='' || this.state.reason=='')){
+              if(this.state.toDate==''){alert('Please set to date and try again');}}}else{alert('Please set reason , from date and try again')}
+            if(!(this.state.fromDate=='' && this.state.toDate=='')){
+            if(!(this.state.fromDate=='' || this.state.toDate=='')){
+              if(this.state.reason==''){alert('Please set reason and try again');}}} else{alert('Please set from date , to date and try again')}
+            
+            }
+            else{
+              alert('Fill all details');
+            }
            })
 
            

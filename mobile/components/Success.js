@@ -40,7 +40,7 @@ import axios from "react-native-axios";
         
         this.state = {
         unique_id:'' , 
-         curTime : `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
+         curTime : `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`,
          timeStore : '',
          verifyDate :  new Date().getDate().toString(),
          message:null,
@@ -50,6 +50,7 @@ import axios from "react-native-axios";
         }
     }
     async componentDidMount() {
+      BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
       const employeeId = await AsyncStorage.getItem('employeeId');
   const companyId = await AsyncStorage.getItem('companyId');
   const  departmentId = await AsyncStorage.getItem('departmentId'); 
@@ -69,7 +70,7 @@ import axios from "react-native-axios";
 
     
         if(unique_id == null &&(this.state.verifyDate != checkDate ||	checkDate == null ) ) {
-          axios.post('http://192.168.0.130/pasta/api/markattendance', {
+          axios.post('https://pronteff.com/Prontee/api/markattendance', {
            empid: employeeId,
            company_id: companyId,
            dept_id: departmentId,
@@ -93,6 +94,13 @@ import axios from "react-native-axios";
        
         
       }
+      componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+    handleBackButton() {
+     
+      return true;
+  }
       
    
       render() {
@@ -100,13 +108,17 @@ import axios from "react-native-axios";
             <Container>
             <Header style={{backgroundColor:'white' ,borderBottomWidth:0}} ><Body style={{alignItems:'center',justifyContent:'flex-end'}} >
             <View style={{alignItems:'center',justifyContent:'flex-end',marginBottom:-25}} >
-            <Label style={{fontSize:18,  ...Platform.select({
-     ios: {
-      fontWeight: "bold"
-    },
-   
-     
-    }) }} >Attendence</Label>
+            <Label style={{fontSize:18,
+                ...Platform.select({
+                  ios: {
+                    fontWeight: "bold"
+                  },
+                  android: {
+                    fontFamily: 'normal',
+                    fontWeight: 'bold',
+                  }
+                
+                }) }} >Attendence</Label>
     <Image  style={{width:Dimensions.get('window').width*1}}  source={require('../assets/Icons/top-strip.png')} resizeMode="contain"  />
 </View>
 </Body>
@@ -137,7 +149,7 @@ import axios from "react-native-axios";
                  if((position.coords.latitude < 17.450926) && (position.coords.latitude > 17.448955) ) {
                   if((position.coords.longitude < 78.388429) && (position.coords.longitude > 78.385987 ) ) {
                      // Alert.alert('HI','Noted','OK');
-                     axios.post('http://192.168.0.130/pasta/api/employeeleaveout', {
+                     axios.post('https://pronteff.com/Prontee/api/employeeleaveout', {
           
                       att_unique_id : await AsyncStorage.getItem('uniqueId'),
                       leave_out_status : 'true' ,

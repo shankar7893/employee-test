@@ -31,6 +31,7 @@ class HolidayPage extends React.Component {
     await AsyncStorage.clear();
     this.props.navigation.navigate("Auth");
   };
+  
 
   render() {
     return (

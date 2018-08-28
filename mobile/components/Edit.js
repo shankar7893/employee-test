@@ -41,10 +41,10 @@ class Edit extends React.Component {
 async componentDidMount (){
   const employeeId = await AsyncStorage.getItem('employeeId');
   const companyId = await AsyncStorage.getItem('companyId');
-    
+ 
    
                           
-  axios.post('http://192.168.0.130/pasta/api/getempdetails', {
+  axios.post('https://pronteff.com/Prontee/api/getempdetails', {
     empid: employeeId,
     cmpid: companyId,
   }).then(async res => {
@@ -86,7 +86,11 @@ render() {
                   ios: {
                     fontWeight: "bold"
                   },
-                 
+                  android: {
+                    fontFamily: 'normal',
+                    fontWeight: 'bold',
+                  }
+                
                 })
               }}
             >
@@ -105,7 +109,17 @@ render() {
                     <View style={{alignItems:'center',justifyContent:'center',flex:4}} >
                     <Thumbnail source={{uri: this.state.imageurl }} style={{height:80,width:80,borderRadius:40 }} />
                     <Entypo name="camera" color="#cacaca" size={35} style={{ position: 'absolute',paddingBottom: 80,paddingLeft: 65, }} />
-                    <Text style={{fontSize:16, color:'#0c1d40' ,paddingBottom:5, paddingTop:10}} >
+                    <Text style={{fontSize:16, color:'#0c1d40' ,paddingBottom:5, paddingTop:10,
+                ...Platform.select({
+                  ios: {
+                    fontWeight: "bold"
+                  },
+                  android: {
+                    fontFamily: 'normal',
+                    fontWeight: 'bold',
+                  }
+                
+                })}} >
                     {this.state.firstname} {this.state.lastname}</Text>
                       <Text style={{fontSize:12,color: '#cacaca' }}>{this.state.designation}</Text>
                     </View></TouchableWithoutFeedback>
@@ -150,14 +164,18 @@ render() {
                     </View>
                     <View style={{flex:3,justifyContent:'flex-start' ,alignItems:'center'}} >
                   <TouchableOpacity onPress={async () => {
-                     var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                     
+                     if(this.state.email != ''){
+                      
+                       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
                      if (reg.test(this.state.email) == false) 
                      {
                        
                        this.setState({message: 'Enter valid email'}); 
                      }
+
                   else{
-                      axios.post('http://192.168.0.130/pasta/api/updateemployeeprofile', {
+                      axios.post('https://pronteff.com/Prontee/api/updateemployeeprofile', {
                        company_id : this.state.companyId ,
                        emp_id : this.state.employeeId ,
                        email_id: this.state.email ,
@@ -180,7 +198,10 @@ render() {
                        }
                       })
                     }
-                   
+                  }
+                  else {
+                    this.setState({message: 'Please enter email'});
+                  }
                   }
                       
                    

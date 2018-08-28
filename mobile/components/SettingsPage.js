@@ -39,7 +39,7 @@ import AttendenceScreen from "./AttendenceScreen";
       
      async componentDidMount() {
         const unique_id =   await AsyncStorage.getItem('uniqueId'); 
-        
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
         if(unique_id != null ) {
           this.props.navigation.navigate('Success');
         };
@@ -55,8 +55,13 @@ import AttendenceScreen from "./AttendenceScreen";
 
                   
               }
+              else {
+                this.props.navigation.navigate('AttendenceScreen');
+              }
             }
-           
+            else {
+              this.props.navigation.navigate('AttendenceScreen');
+            }
             
 
              this.setState({
@@ -72,6 +77,13 @@ import AttendenceScreen from "./AttendenceScreen";
           );
         }
         }
+
+        componentWillUnmount() {
+          BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+      }
+      handleBackButton() {
+        return true;
+      }
         render() {
           return (
             <View style={styles.container}>

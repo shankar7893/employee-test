@@ -38,38 +38,6 @@ class Login extends React.Component {
       message: null,
     };
   }
-  // componentDidMount() {
-  // //  this._loadInitialState().done();
-  //  BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-
-  // }
-  // handleBackPress = () => {
-  //   this.goBack(); // works best when the goBack is async
-  //   return true;
-  // }}
-
-  // _loadInitialState = async () => {
-
-  //  var value = await AsyncStorage.getItem('user');
-  //  if (value != null){
-
-  //    this.props.navigation.navigate('Home');
-  //  }
-  // }
-
-  // onLogin() {
-  //     axios.post('http://192.168.0.162:5000/', {
-  //         username: 'prasad',
-  //         password: '123456'
-  //       })
-  //       .then(res => {
-  //         console.log(res);
-  //         console.log(res.data);
-  //         if(res.data != null){
-  //           navigate('Home');
-  //         }
-  //       })
-  // }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -86,15 +54,13 @@ class Login extends React.Component {
         <KeyboardAvoidingView behavior="padding" style={{ flex: 5 }}>
           <TouchableWithoutFeedback
             onPress={Keyboard.dismiss}
-            accessible={false}
-          >
+            accessible={false}>
             <View
               style={{
                 justifyContent: "center",
                 alignItems: "center",
                 flex: 3
-              }}
-            >
+              }}>
               <Image
                 source={require("../assets/plogo.png")}
                 style={{
@@ -111,34 +77,23 @@ class Login extends React.Component {
             accessible={false}
           >
             <View style={{ flex: 2 }}>
-              {/* <TextInput
-            value={this.state.username}
-            onChangeText={(username) => this.setState({ username })}
-            placeholder={'Username'}
-            style={styles.input}
-          />
-          <TextInput
-            value={this.state.password}
-            onChangeText={(password) => this.setState({ password })}
-            placeholder={'Password'}
-            secureTextEntry={true}
-            style={styles.input}
-          />  */}
-
+            
               <Form style={{ flex: 1 }}>
                 <Item floatingLabel style={styles.input}>
-                  <Input 
+                  <Input
                     value={this.state.username}
                     placeholderTextColor="lightgray"
                     placeholder="Enter your employee id"
                     onChangeText={username => this.setState({ username })}
                     style={{ fontSize: 13 }}
                   />
-                  
+                   
                 </Item>
                 {this.state.message=='Please enter EmployeeID' ?
                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>{this.state.message}</Text> : null }
                 <Item floatingLabel style={styles.input}>
+               
+               
                   <Input
                     placeholderTextColor="lightgray"
                     placeholder="Enter your password"
@@ -147,16 +102,11 @@ class Login extends React.Component {
                     style={{ fontSize: 13 }}
                     secureTextEntry={true}
                   />
-                </Item> {this.state.message=='Please enter Password' ||
-                  this.state.message=='Please enter EmployeeId and Password' ||
-                   this.state.message=='EmployeeID or Password entered is invalid'  ?
+                </Item> 
+                {this.state.message!=null ?
                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>{this.state.message}</Text> : null }
-                 {/* {this.state.errorHandle ? (
-                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
-                    Employee ID or Password entered is Invalid
-                  </Text>
-                ) : null} */}
-              </Form>
+               
+              </Form> 
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -172,49 +122,56 @@ class Login extends React.Component {
             onPress={async () =>
               
               axios
-                .post("http://192.168.0.130/pasta/api/authenticateemployee", {
+                .post("https://pronteff.com/Prontee/api/authenticateemployee", {
                   //http://192.168.0.168:5000
                   empid: this.state.username,
                   password: this.state.password
                 })
                 .then(async res => {
+                  console.log(res.data);
                  
-                 
-                  
-                  if(this.state.username == null ){
-                    
-                    if(this.state.username==null && this.state.password==null){
-                      this.setState({message: 'Please enter EmployeeId and Password'});
-                  }
-                  else {
-                    this.setState({message: 'Please enter EmployeeID'});
-                  }
-                }
-                else {
-                  if(this.state.password==null){
-                    this.setState({message: 'Please enter Password'});
-                  }
-                }
-                if(this.state.password==null){
-                    
                   if(this.state.username==null && this.state.password==null){
-                    this.setState({message: 'Please enter EmployeeId and Password'});
-                }
-                else {
-                  this.setState({message: 'Please enter Password'});
-                }
-              }
-              else {
-                if(this.state.username==null){
-                  this.setState({message: 'Please enter username'});
-                }
-              }
-              if(res.data.message != null){
-              if(this.state.username!=null && this.state.password!=null){
+                             this.setState({message: 'Please enter EmployeeId and Password'});
+                         }
+                         else{
+                          this.setState({message: res.data.message});
+                         }
+                  
+              //     if(this.state.username == null ){
+                    
+              //       if(this.state.username==null && this.state.password==null){
+              //         this.setState({message: 'Please enter EmployeeId and Password'});
+              //     }
+              //     else {
+              //       this.setState({message: 'Please enter EmployeeID'});
+              //     }
+              //   }
+              //   else {
+              //     if(this.state.password==null){
+              //       this.setState({message: 'Please enter Password'});
+              //     }
+              //   }
+              //   if(this.state.password==null){
+                    
+              //     if(this.state.username==null && this.state.password==null){
+              //       this.setState({message: 'Please enter EmployeeId and Password'});
+              //   }
+              //   else {
+              //     this.setState({message: 'Please enter Password'});
+              //   }
+              // }
+              // else {
+              //   if(this.state.username==null){
+              //     this.setState({message: 'Please enter username'});
+              //   }
+              // }
+              // if(res.data.message != null){
+              //   this.setState({message: res.data.message});
+              // if(this.state.username!=null && this.state.password!=null){
                 
-                  this.setState({message: 'EmployeeID or Password entered is invalid'});
+              //     this.setState({message: res.data.message });
                 
-              }}
+              // }}
                   
                   if (res.data.status === "true") {
                     await AsyncStorage.setItem(
@@ -244,7 +201,7 @@ class Login extends React.Component {
             }
             style={{
               marginTop: Dimensions.get("window").height * 0.1,
-              backgroundColor: "darkblue",
+              backgroundColor: "#0c1d40",
               alignItems: "center",
               justifyContent: "center",
               shadowOffset: { height: 0, width: 0 },

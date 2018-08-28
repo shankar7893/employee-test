@@ -26,6 +26,7 @@ import {
 import axios from "react-native-axios";
 
 class ChartPage extends React.Component {
+ 
   render() {
     return (
       <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>

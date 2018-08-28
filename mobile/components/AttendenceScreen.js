@@ -30,6 +30,7 @@ import {
 import axios from "react-native-axios";
 
 class AttendenceScreen extends React.Component {
+
   render() {
     return (
       <Container>
@@ -48,8 +49,12 @@ class AttendenceScreen extends React.Component {
                   ...Platform.select({
                     ios: {
                       fontWeight: "bold"
+                    },
+                    android: {
+                      fontFamily: 'normal',
+                      fontWeight: 'bold',
                     }
-                    
+                  
                   })
                 }}
               >
