@@ -189,7 +189,7 @@ if(checkingday < this.state.checkToDate ) {
              let x = res.data.leaves_left;
              let y = x.toString();
              await AsyncStorage.setItem('leavesLeft', y);
-            
+            alert(res.data.message)
              this.setState({leavesLeft : res.data.leaves_left });
              this.setState({fromDate:'' });
              this.setState({toDate:'' });
