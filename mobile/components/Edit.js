@@ -121,7 +121,7 @@ render() {
                 
                 })}} >
                     {this.state.firstname} {this.state.lastname}</Text>
-                      <Text style={{fontSize:12,color: '#cacaca' }}>{this.state.designation}</Text>
+                      <Text style={{fontSize:12,color: 'gray' }}>{this.state.designation}</Text>
                     </View></TouchableWithoutFeedback>
                     <View style={{flex:3,justifyContent:'space-between' , marginTop:15,marginLeft:25,marginRight:10 }} >
 
@@ -164,7 +164,7 @@ render() {
                     </View>
                     <View style={{flex:3,justifyContent:'flex-start' ,alignItems:'center'}} >
                   <TouchableOpacity onPress={async () => {
-                     
+                     if(this.state.phoneNumber.length > 9){
                      if(this.state.email != ''){
                       
                        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -212,6 +212,9 @@ render() {
                   }
                   else {
                     this.setState({message: 'Please enter email'});
+                  }}
+                  else{
+                    this.setState({message: 'Phone number should be 10 digits'});
                   }
                   }
                       

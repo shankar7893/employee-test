@@ -56,6 +56,7 @@ const HomeTab = createBottomTabNavigator(
     Attendence: {
       screen: Leave,
       navigationOptions: {
+        
         tabBarIcon: ({ tintColor }) => (
           <Feather name="user-check" size={30} color={tintColor} />
         )

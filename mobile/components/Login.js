@@ -125,19 +125,19 @@ class Login extends React.Component {
             onPress={async () =>
               axios
                 .post("https://pronteff.com/Prontee/api/authenticateemployee", {
-                  //http://192.168.0.168:5000
+                 
                   empid: this.state.username,
                   password: this.state.password
                 })
                 .then(async res => {
                   console.log(res.data);
-
+                  console.log(this.state.username)
                   if (
                     this.state.username == null &&
                     this.state.password == null
                   ) {
                     this.setState({
-                      message: "Please enter Employee Id and Password"
+                      message: "Please enter login credentials"
                     });
                   } else {
                     this.setState({ message: res.data.message });

@@ -12,6 +12,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 class Leave extends React.Component {
     constructor(props) {
         super(props)
+       
         var d = new Date();
 var year = d.getFullYear();
 var month = d.getMonth();
@@ -93,7 +94,7 @@ if(checkingday < this.state.checkToDate ) {
         this.setState({employeeId :  await AsyncStorage.getItem('employeeId')  });
         
     };
-   
+  
   
     render() {
      
@@ -130,6 +131,8 @@ if(checkingday < this.state.checkToDate ) {
            </View>
           
            <View style={{ flex:1 ,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}} >
+          <View style={{flexDirection:'column'}} >
+           { this.state.fromDate!=''? <Text>From</Text>:null}
            <Card>
               
                <CardItem >
@@ -148,7 +151,9 @@ if(checkingday < this.state.checkToDate ) {
         
         />
                </CardItem>
-           </Card>
+           </Card></View>
+           <View style={{flexDirection:'column'}} >
+           { this.state.toDate!=''? <Text>To</Text>:null}
            <Card>
               
                <CardItem >
@@ -166,7 +171,7 @@ if(checkingday < this.state.checkToDate ) {
           maximumDate={this.state.maxDate}
         />
                </CardItem>
-           </Card>
+           </Card></View>
            </View>
            <View style={{flex:3, marginTop:20}} >
            <Card style={{flex:1}} >
@@ -199,13 +204,13 @@ if(checkingday < this.state.checkToDate ) {
              if(!(this.state.fromDate=='' && this.state.toDate=='' && this.state.reason=='' ) ){
            if(!(this.state.toDate=='' && this.state.reason=='')){
             if(!(this.state.reason=='' || this.state.toDate=='')){
-              if(this.state.fromDate==''){alert('Please set from date and try again');}}}else{alert('Please set reason , to date and try again')}
+              if(this.state.fromDate==''){alert('Please set from date and try again');}}}else{alert('Please set To date and reason ')}
            if(!(this.state.fromDate=='' && this.state.reason=='')){
              if(!(this.state.fromDate=='' || this.state.reason=='')){
-              if(this.state.toDate==''){alert('Please set to date and try again');}}}else{alert('Please set reason , from date and try again')}
+              if(this.state.toDate==''){alert('Please set To date and try again');}}}else{alert('Please set From date and reason')}
             if(!(this.state.fromDate=='' && this.state.toDate=='')){
             if(!(this.state.fromDate=='' || this.state.toDate=='')){
-              if(this.state.reason==''){alert('Please set reason and try again');}}} else{alert('Please set from date , to date and try again')}
+              if(this.state.reason==''){alert('Please set reason and try again');}}} else{alert('Please set From date and To date')}
             
             }
             else{

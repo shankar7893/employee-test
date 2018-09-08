@@ -56,6 +56,8 @@ class HomePage extends React.Component {
     this.state = {
       empData: [],
       refreshing: false,
+      checkDate:
+       new Date().getDate()
     };
     // this.updateInHome = this.updateInHome.bind(this);
   }
@@ -226,8 +228,13 @@ class HomePage extends React.Component {
             }}
           >
             <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate("SettingsPage");
+              onPress={ async () => {
+                const check = await AsyncStorage.getItem("checkDate");
+                if(check==this.state.checkDate){
+                  alert('Sorry you already left out')
+                }
+                else{
+                this.props.navigation.navigate("SettingsPage");}
               }}
               style={{
                 marginTop: Dimensions.get("window").height * 0.1,
@@ -246,7 +253,7 @@ class HomePage extends React.Component {
                 borderTopRightRadius: 30
               }}
             >
-              <Text style={{ color: "white" }}>Attendence</Text>
+              <Text style={{ color: "white" }}>Attendance</Text>
             </TouchableOpacity>
           </View>
         </View>

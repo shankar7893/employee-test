@@ -58,7 +58,7 @@ class AttendenceScreen extends React.Component {
                   })
                 }}
               >
-                Attendence
+                Attendance
               </Label>
               <Image
                 style={{ width: Dimensions.get("window").width * 1 }}
