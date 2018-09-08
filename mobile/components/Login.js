@@ -35,7 +35,7 @@ class Login extends React.Component {
       username: null,
       password: null,
       errorHandle: false,
-      message: null,
+      message: null
     };
   }
 
@@ -54,13 +54,15 @@ class Login extends React.Component {
         <KeyboardAvoidingView behavior="padding" style={{ flex: 5 }}>
           <TouchableWithoutFeedback
             onPress={Keyboard.dismiss}
-            accessible={false}>
+            accessible={false}
+          >
             <View
               style={{
                 justifyContent: "center",
                 alignItems: "center",
                 flex: 3
-              }}>
+              }}
+            >
               <Image
                 source={require("../assets/plogo.png")}
                 style={{
@@ -77,7 +79,6 @@ class Login extends React.Component {
             accessible={false}
           >
             <View style={{ flex: 2 }}>
-            
               <Form style={{ flex: 1 }}>
                 <Item floatingLabel style={styles.input}>
                   <Input
@@ -87,13 +88,13 @@ class Login extends React.Component {
                     onChangeText={username => this.setState({ username })}
                     style={{ fontSize: 13 }}
                   />
-                   
                 </Item>
-                {this.state.message=='Please enter EmployeeID' ?
-                 <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>{this.state.message}</Text> : null }
+                {this.state.message == "Please enter EmployeeID" ? (
+                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
+                    {this.state.message}
+                  </Text>
+                ) : null}
                 <Item floatingLabel style={styles.input}>
-               
-               
                   <Input
                     placeholderTextColor="lightgray"
                     placeholder="Enter your password"
@@ -102,11 +103,13 @@ class Login extends React.Component {
                     style={{ fontSize: 13 }}
                     secureTextEntry={true}
                   />
-                </Item> 
-                {this.state.message!=null ?
-                 <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>{this.state.message}</Text> : null }
-               
-              </Form> 
+                </Item>
+                {this.state.message != null ? (
+                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
+                    {this.state.message}
+                  </Text>
+                ) : null}
+              </Form>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -120,7 +123,6 @@ class Login extends React.Component {
         >
           <TouchableOpacity
             onPress={async () =>
-              
               axios
                 .post("https://pronteff.com/Prontee/api/authenticateemployee", {
                   //http://192.168.0.168:5000
@@ -129,50 +131,54 @@ class Login extends React.Component {
                 })
                 .then(async res => {
                   console.log(res.data);
-                 
-                  if(this.state.username==null && this.state.password==null){
-                             this.setState({message: 'Please enter EmployeeId and Password'});
-                         }
-                         else{
-                          this.setState({message: res.data.message});
-                         }
-                  
-              //     if(this.state.username == null ){
-                    
-              //       if(this.state.username==null && this.state.password==null){
-              //         this.setState({message: 'Please enter EmployeeId and Password'});
-              //     }
-              //     else {
-              //       this.setState({message: 'Please enter EmployeeID'});
-              //     }
-              //   }
-              //   else {
-              //     if(this.state.password==null){
-              //       this.setState({message: 'Please enter Password'});
-              //     }
-              //   }
-              //   if(this.state.password==null){
-                    
-              //     if(this.state.username==null && this.state.password==null){
-              //       this.setState({message: 'Please enter EmployeeId and Password'});
-              //   }
-              //   else {
-              //     this.setState({message: 'Please enter Password'});
-              //   }
-              // }
-              // else {
-              //   if(this.state.username==null){
-              //     this.setState({message: 'Please enter username'});
-              //   }
-              // }
-              // if(res.data.message != null){
-              //   this.setState({message: res.data.message});
-              // if(this.state.username!=null && this.state.password!=null){
-                
-              //     this.setState({message: res.data.message });
-                
-              // }}
-                  
+
+                  if (
+                    this.state.username == null &&
+                    this.state.password == null
+                  ) {
+                    this.setState({
+                      message: "Please enter Employee Id and Password"
+                    });
+                  } else {
+                    this.setState({ message: res.data.message });
+                  }
+
+                  //     if(this.state.username == null ){
+
+                  //       if(this.state.username==null && this.state.password==null){
+                  //         this.setState({message: 'Please enter EmployeeId and Password'});
+                  //     }
+                  //     else {
+                  //       this.setState({message: 'Please enter EmployeeID'});
+                  //     }
+                  //   }
+                  //   else {
+                  //     if(this.state.password==null){
+                  //       this.setState({message: 'Please enter Password'});
+                  //     }
+                  //   }
+                  //   if(this.state.password==null){
+
+                  //     if(this.state.username==null && this.state.password==null){
+                  //       this.setState({message: 'Please enter EmployeeId and Password'});
+                  //   }
+                  //   else {
+                  //     this.setState({message: 'Please enter Password'});
+                  //   }
+                  // }
+                  // else {
+                  //   if(this.state.username==null){
+                  //     this.setState({message: 'Please enter username'});
+                  //   }
+                  // }
+                  // if(res.data.message != null){
+                  //   this.setState({message: res.data.message});
+                  // if(this.state.username!=null && this.state.password!=null){
+
+                  //     this.setState({message: res.data.message });
+
+                  // }}
+
                   if (res.data.status === "true") {
                     await AsyncStorage.setItem(
                       "employeeId",
@@ -189,7 +195,6 @@ class Login extends React.Component {
 
                     navigate("App");
                   } else {
-                   
                   }
                 })
                 .catch(error => {
@@ -197,7 +202,6 @@ class Login extends React.Component {
                   this.setState({ errorHandle: true });
                   alert(error.message);
                 })
-                
             }
             style={{
               marginTop: Dimensions.get("window").height * 0.1,

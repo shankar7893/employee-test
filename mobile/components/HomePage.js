@@ -15,7 +15,8 @@ import {
   AsyncStorage,
   Animated,
   ScrollView,
-  NetInfo
+  NetInfo,
+  RefreshControl,StatusBar
 } from "react-native";
 import {
   createBottomTabNavigator,
@@ -53,13 +54,17 @@ class HomePage extends React.Component {
 
    
     this.state = {
-      empData: []
+      empData: [],
+      refreshing: false,
     };
     // this.updateInHome = this.updateInHome.bind(this);
   }
 
-  updateInHome() {
-
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    fetchData().then(() => {
+      this.setState({refreshing: false});
+    });
   }
 
   async componentDidMount() {
@@ -87,10 +92,15 @@ class HomePage extends React.Component {
     //  renderEmp () {
     //    return this.state.album
     //  }
-    
+    const { navigation } = this.props;
+    const empData1 = navigation.getParam('empData', 'NO-ID');
+   
     return (
+      
       <Container >
+       
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
+      
           <Body style={{ flex: 8, alignItems: "flex-end" }}>
             <Label
               style={{
@@ -123,6 +133,7 @@ class HomePage extends React.Component {
         </Header>
 
         <View style={{ flex: 1 }}>
+      
           <View
             style={{
               alignItems: "center",
@@ -173,7 +184,12 @@ class HomePage extends React.Component {
               />
             </View>
           </View>
-          <View
+          <View   refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
             style={{
               flex: 2,
               justifyContent: "space-between",
@@ -188,12 +204,12 @@ class HomePage extends React.Component {
             <View style={{ flexDirection: "row" }}>
               <Feather name="phone-call" color={"gray"} size={18} />
               <Text style={{ marginLeft: 10 ,color:'#0c1d40'}}>
-                +91 {this.state.empData.mobileno}
+                +91 { empData1 !='NO-ID' ? empData1.mobileno: this.state.empData.mobileno  }
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <MaterialCommunityIcons name="email" size={18} color={"gray"} />
-              <Text style={{ marginLeft: 10,color:'#0c1d40' }}>{this.state.empData.email}</Text>
+              <Text style={{ marginLeft: 10,color:'#0c1d40' }}>{ empData1 !='NO-ID' ?   empData1.email:this.state.empData.email }</Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <Entypo name="location-pin" size={18} color={"gray"} />

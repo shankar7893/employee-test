@@ -188,9 +188,20 @@ render() {
                      if(res.data.status=='true'){ 
                       this.setState({message:res.data.message});
                       this.setState({color: true});
-                    setTimeout(() => {
-                      this.props.navigation.goBack();
-                    },1000 )
+                      axios
+                      .post("https://pronteff.com/Prontee/api/getempdetails", {
+                        empid: this.state.employeeId,
+                        cmpid: this.state.companyId
+                      })
+                      .then(async res => {
+                        setTimeout(() => {
+                          this.props.navigation.navigate('HomePage',{
+                           empData: res.data 
+                          });
+                        },1000 )
+                      
+                      });
+                  
                     
                        }
                        else{
