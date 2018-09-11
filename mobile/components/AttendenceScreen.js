@@ -33,7 +33,7 @@ class AttendenceScreen extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{marginTop:15}} >
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
           <Body style={{ alignItems: "center", justifyContent: "flex-end" }}>
             <View

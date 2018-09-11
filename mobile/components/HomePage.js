@@ -99,7 +99,7 @@ class HomePage extends React.Component {
    
     return (
       
-      <Container >
+      <Container style={{marginTop:15}} >
        
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
       
@@ -229,9 +229,18 @@ class HomePage extends React.Component {
           >
             <TouchableOpacity
               onPress={ async () => {
-                const check = await AsyncStorage.getItem("checkDate");
+                const check = await AsyncStorage.getItem("attDate");
                 if(check==this.state.checkDate){
-                  alert('Sorry you already left out')
+                  
+                  Alert.alert(
+                    '',
+                    'Sorry you already left out',
+                    [
+                   
+                      {text: 'OK', }
+                    ],
+                    {cancelable:false}
+                  )
                 }
                 else{
                 this.props.navigation.navigate("SettingsPage");}

@@ -69,7 +69,7 @@ async componentDidMount (){
 };
 render() {
   return (
-    <Container>
+    <Container style={{marginTop:15}} >
       <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
         <Body style={{ alignItems: "center", justifyContent: "flex-end" }}>
           <View
@@ -146,8 +146,19 @@ render() {
        
      } } />
                     </View> }
-                    {this.state.passwordCheck ? <TextInput underlineColorAndroid='transparent'  secureTextEntry={true} value={this.state.password.toString()} 
-                     onChangeText={(text) => this.setState({  password : text }) }    style={{borderBottomWidth:1,borderBottomColor:'gray',}} /> : 
+                    {this.state.passwordCheck ? <TextInput underlineColorAndroid='transparent' maxLength={8}  secureTextEntry={true} value={this.state.password.toString()} 
+                     onChangeText={(text) => {this.setState({  password : text })
+                     if(text.length==8)
+                     Alert.alert(
+                      '',
+                      'Maximum length is 8 characters only',
+                      [
+                   
+                        {text: 'OK', }
+                      ],
+                      { cancelable: false }
+                    )
+                    } }    style={{borderBottomWidth:1,borderBottomColor:'gray',}} /> : 
                     <View style={{flexDirection:'row',justifyContent:'space-between',borderBottomColor:'#cacaca',borderBottomWidth:1}} >
                       <Text >Password</Text>
                      <Entypo name='edit' size={20} color={'#cacaca'} onPress = {  () => {
@@ -167,7 +178,7 @@ render() {
                      if(this.state.phoneNumber.length > 9){
                      if(this.state.email != ''){
                       
-                       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.(com)$/;
                      if (reg.test(this.state.email) == false) 
                      {
                        

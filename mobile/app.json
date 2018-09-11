@@ -2,12 +2,12 @@
   "expo": {
     "name": "Prontee",
     "description": "This project is really great.",
-    "slug": "prontee",
+    "slug": "prontee-new",
     "privacy": "public",
     "sdkVersion": "28.0.0",
     "platforms": ["ios", "android"],
     "android": {
-      "package": "com.pronteff.employeetest"
+      "package": "com.pronteff.prontee"
     },
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.pronteff.employeetest",
+      "bundleIdentifier": "com.pronteff.prontee",
       "supportsTablet": true
     }
     

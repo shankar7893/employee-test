@@ -83,7 +83,15 @@ class Success extends React.Component {
           console.log(res.data.unique_att_id);
           let x = new Date().getDate();
           await AsyncStorage.setItem("checkDate", x.toString());
-          alert(res.data.message);
+          Alert.alert(
+            '',
+           res.data.message,
+            [
+           
+              {text: 'OK', }
+            ],
+            {cancelable:false}
+          )
         })
         .catch(error => {
           console.log(error);
@@ -101,7 +109,7 @@ class Success extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container style={{marginTop:15}} >
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
           <Body style={{ alignItems: "center", justifyContent: "flex-end" }}>
             <View
@@ -169,7 +177,7 @@ class Success extends React.Component {
               onPress={async () => {
                 const unique_id = await AsyncStorage.getItem("uniqueId");
                 Alert.alert('',
-                'Are you sure',
+                'Are you sure do you want to leave out',
                 [
                   
                   {text: 'Cancel', style: 'cancel'},
@@ -201,7 +209,16 @@ class Success extends React.Component {
                                     "attendenceSubmitted",
                                     "false"
                                   );
-                                  alert(res.data.message);
+                                  Alert.alert(
+                                    '',
+                                   res.data.message,
+                                    [
+                                   
+                                      {text: 'OK', }
+                                    ],
+                                    {cancelable:false}
+                                  )
+                              
     
                                   let x = new Date().getDate();
                                   this.setState({
@@ -213,6 +230,10 @@ class Success extends React.Component {
                                   );
                                   await AsyncStorage.setItem(
                                     "checkDate",
+                                    x.toString()
+                                  );
+                                  await AsyncStorage.setItem(
+                                    "attDate",
                                     x.toString()
                                   );
                                   this.setState({ message: res.data.message });
@@ -242,7 +263,7 @@ class Success extends React.Component {
                     }
                   }},
                 ],
-                { cancelable: false })
+                )
                
               }}
               style={{

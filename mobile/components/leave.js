@@ -99,7 +99,7 @@ if(checkingday < this.state.checkToDate ) {
     render() {
      
         return(
-            <Container>
+           <Container style={{marginTop:15}} >
             <Header style={{backgroundColor:'white' ,borderBottomWidth:0}} ><Body style={{alignItems:'center',justifyContent:'flex-end'}} >
             <View style={{alignItems:'center',justifyContent:'flex-end',marginBottom:-25 }} >
             <Label style={{fontSize:18,
@@ -175,9 +175,9 @@ if(checkingday < this.state.checkToDate ) {
            </View>
            <View style={{flex:3, marginTop:20}} >
            <Card style={{flex:1}} >
-         
-             <TextInput underlineColorAndroid='transparent' placeholder='Reason..'   multiline={true}
-    numberOfLines={4} value= {this.state.reason} style={{margin:10 }}  onChangeText={(text) => this.setState({  reason: text }) } />
+             
+             <TextInput  underlineColorAndroid='transparent' placeholder='Reason...'   multiline={true}  
+    numberOfLines={5} value= {this.state.reason} style={{margin:10,flex:1}}  onChangeText={(text) => this.setState({  reason: text }) } />
            </Card>
            </View>
            <View style={{flex:4,alignItems:'center',justifyContent:'center'}}>
@@ -194,27 +194,51 @@ if(checkingday < this.state.checkToDate ) {
              let x = res.data.leaves_left;
              let y = x.toString();
              await AsyncStorage.setItem('leavesLeft', y);
-            alert(res.data.message)
+            Alert.alert('',res.data.message,[{text:'ok'}],{cancelable:false});
              this.setState({leavesLeft : res.data.leaves_left });
              this.setState({fromDate:'' });
              this.setState({toDate:'' });
              this.setState({reason: ''});
+            
              
            }).catch(error => {
-             if(!(this.state.fromDate=='' && this.state.toDate=='' && this.state.reason=='' ) ){
-           if(!(this.state.toDate=='' && this.state.reason=='')){
-            if(!(this.state.reason=='' || this.state.toDate=='')){
-              if(this.state.fromDate==''){alert('Please set from date and try again');}}}else{alert('Please set To date and reason ')}
-           if(!(this.state.fromDate=='' && this.state.reason=='')){
-             if(!(this.state.fromDate=='' || this.state.reason=='')){
-              if(this.state.toDate==''){alert('Please set To date and try again');}}}else{alert('Please set From date and reason')}
-            if(!(this.state.fromDate=='' && this.state.toDate=='')){
-            if(!(this.state.fromDate=='' || this.state.toDate=='')){
-              if(this.state.reason==''){alert('Please set reason and try again');}}} else{alert('Please set From date and To date')}
-            
-            }
+            if(!(this.state.fromDate=='' && this.state.toDate=='' && this.state.reason=='' ) ){
+              if(!(this.state.toDate=='' && this.state.reason=='')){
+               if(!(this.state.reason=='' || this.state.toDate=='')){
+                 if(this.state.fromDate==''){Alert.alert('','Please set from date and try again',[{text:'ok'}],{cancelable:false});}}}
+                 else{Alert.alert('','Please set To date and reason ',[{text:'ok'}],{cancelable:false})}
+              if(!(this.state.fromDate=='' && this.state.reason=='')){
+                if(!(this.state.fromDate=='' || this.state.reason=='')){
+                 if(this.state.toDate==''){Alert.alert('','Please set To date and try again',[
+                
+                   {text: 'OK', }
+                 ],
+                 {cancelable:false});}}}
+                 else{alert('Please set From date and reason')}
+               if(!(this.state.fromDate=='' && this.state.toDate=='')){
+               if(!(this.state.fromDate=='' || this.state.toDate=='')){
+                 if(this.state.reason==''){Alert.alert('','Please set reason and try again',[
+                
+                   {text: 'OK', }
+                 ],
+                 {cancelable:false});}}} 
+                 else{Alert.alert('','Please set From date and To date',[
+                
+                   {text: 'OK', }
+                 ],
+                 {cancelable:false})}
+               
+               }
             else{
-              alert('Fill all details');
+              Alert.alert(
+                '',
+                'Fill all details',
+                [
+               
+                  {text: 'OK', }
+                ],
+                {cancelable:false}
+              )
             }
            })
 
@@ -235,3 +259,6 @@ if(checkingday < this.state.checkToDate ) {
   }
 
   export default Leave;
+
+
+    

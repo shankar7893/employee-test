@@ -37,9 +37,31 @@ class HolidayPage extends React.Component {
     return (
       <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
         <Text> App Building is under process sorry....</Text>
-        <Button primary onPress={this._signOutAsync}>
-          <Text>Logout</Text>
-        </Button>
+      
+        <TouchableOpacity
+              onPress={ async () => {
+                await AsyncStorage.clear();
+    this.props.navigation.navigate("Auth");
+              }}
+              style={{
+                marginTop: Dimensions.get("window").height * 0.1,
+                backgroundColor: "#0c1d40",
+                alignItems: "center",
+                justifyContent: "center",
+                shadowOffset: { height: 0, width: 0 },
+                shadowOpacity: 0.6,
+                shadowColor: "gray",
+                width: Dimensions.get("window").width * 0.4,
+                height: Dimensions.get("window").height * 0.06,
+                borderRadius: 10,
+                borderBottomLeftRadius: 30,
+                borderBottomRightRadius: 30,
+                borderTopLeftRadius: 30,
+                borderTopRightRadius: 30
+              }}
+            >
+              <Text style={{ color: "white" }}>Logout</Text>
+            </TouchableOpacity>
       </View>
     );
   }

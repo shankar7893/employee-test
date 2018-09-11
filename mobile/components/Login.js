@@ -78,8 +78,8 @@ class Login extends React.Component {
             onPress={Keyboard.dismiss}
             accessible={false}
           >
-            <View style={{ flex: 2 }}>
-              <Form style={{ flex: 1 }}>
+            <View style={{ flex: 2,  }}>
+              <Form style={{ flex: 1,alignItems:'center' }}>
                 <Item floatingLabel style={styles.input}>
                   <Input
                     value={this.state.username}
@@ -104,8 +104,9 @@ class Login extends React.Component {
                     secureTextEntry={true}
                   />
                 </Item>
+                
                 {this.state.message != null ? (
-                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
+                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10, alignItems:'center' }}>
                     {this.state.message}
                   </Text>
                 ) : null}
