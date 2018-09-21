@@ -64,7 +64,9 @@ const HomeTab = createBottomTabNavigator(
     },
     Calender: {
       screen: CalenderPage,
+      
       navigationOptions: {
+      
         tabBarIcon: ({ tintColor }) => (
           <FontAwesome name="calendar" size={30} color={tintColor} />
         )

@@ -12,7 +12,9 @@ import {
   KeyboardAvoidingView,
   BackHandler,
   Platform,
-  ToastAndroid
+  ToastAndroid,
+  FlatList,
+  ScrollView
 } from "react-native";
 import { createBottomTabNavigator } from "react-navigation";
 import {
@@ -21,48 +23,127 @@ import {
   Content,
   Accordion,
   Thumbnail,
-  Button
+  Button,
+  Card,
+  CardItem,
+  Body,
+  Label,
+  Footer
 } from "native-base";
 
 import axios from "react-native-axios";
 
 class HolidayPage extends React.Component {
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate("Auth");
+  state = {
+    Holidays: [],
+    holidays_left: 10
   };
-  
+
+  componentDidMount() {
+    axios
+      .post("http://192.168.0.131/Prontee/api/holidaysdetails", {
+        company_id: "CMP-1"
+      })
+      .then(res => {
+        this.setState({ Holidays: res.data });
+        this.setState({ holidays_left: 10 - res.data.length });
+      });
+  }
 
   render() {
+    const list = this.state.Holidays.map((holiday, i) => (
+      <Card
+        key={i}
+        style={{
+          paddingTop: 5,
+          paddingBottom: 5,
+          margin: 10,
+
+          flexDirection: "row",
+          justifyContent: "flex-start",
+
+          width: Dimensions.get("window").width * 0.9,
+
+          height: Dimensions.get("window").height * 0.09
+        }}
+      >
+        <CardItem
+          style={{
+            borderRightWidth: 1,
+            flex: 2,
+            borderColor: "#cacaca",
+            borderBottomRightRadius: 0,
+            borderTopRightRadius: 0
+          }}
+        >
+          <Text>{holiday.title}</Text>
+        </CardItem>
+        <CardItem style={{ flex: 3 }}>
+          <Text>{holiday.hlday_date}</Text>
+        </CardItem>
+      </Card>
+    ));
     return (
-      <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
-        <Text> App Building is under process sorry....</Text>
-      
-        <TouchableOpacity
-              onPress={ async () => {
-                await AsyncStorage.clear();
-    this.props.navigation.navigate("Auth");
-              }}
+      <Container>
+        <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
+          <Body style={{ alignItems: "center", justifyContent: "flex-end" }}>
+            <View
               style={{
-                marginTop: Dimensions.get("window").height * 0.1,
-                backgroundColor: "#0c1d40",
                 alignItems: "center",
-                justifyContent: "center",
-                shadowOffset: { height: 0, width: 0 },
-                shadowOpacity: 0.6,
-                shadowColor: "gray",
-                width: Dimensions.get("window").width * 0.4,
-                height: Dimensions.get("window").height * 0.06,
-                borderRadius: 10,
-                borderBottomLeftRadius: 30,
-                borderBottomRightRadius: 30,
-                borderTopLeftRadius: 30,
-                borderTopRightRadius: 30
+                justifyContent: "flex-end",
+                marginBottom: -25
               }}
             >
-              <Text style={{ color: "white" }}>Logout</Text>
-            </TouchableOpacity>
-      </View>
+              <Label
+                style={{
+                  fontSize: 18,
+                  ...Platform.select({
+                    ios: {
+                      fontWeight: "bold"
+                    },
+                    android: {
+                      fontFamily: "normal",
+                      fontWeight: "bold"
+                    }
+                  })
+                }}
+              >
+                Holiday Calendar
+              </Label>
+              <Image
+                style={{ width: Dimensions.get("window").width * 1 }}
+                source={require("../assets/Icons/top-strip.png")}
+                resizeMode="contain"
+              />
+            </View>
+          </Body>
+        </Header>
+        <Body>
+          <ScrollView>{list}</ScrollView>
+        </Body>
+        <Footer
+          style={{
+            backgroundColor: "white",
+            height: Dimensions.get("window").width * 0.3,
+            borderTopColor: "white"
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              alignItems: "flex-end",
+              justifyContent: "center"
+            }}
+          >
+            <View style={{ alignItems: "center", marginRight: 5 }}>
+              <Text>Holidays Left</Text>
+              <Text style={{ color: "red", alignItems: "center" }}>
+                {this.state.holidays_left}
+              </Text>
+            </View>
+          </View>
+        </Footer>
+      </Container>
     );
   }
 }

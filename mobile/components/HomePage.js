@@ -16,7 +16,8 @@ import {
   Animated,
   ScrollView,
   NetInfo,
-  RefreshControl,StatusBar
+  RefreshControl,
+  StatusBar
 } from "react-native";
 import {
   createBottomTabNavigator,
@@ -51,58 +52,48 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
 
-
-   
     this.state = {
       empData: [],
       refreshing: false,
-      checkDate:
-       new Date().getDate()
+      checkDate: new Date().getDate()
     };
     // this.updateInHome = this.updateInHome.bind(this);
   }
 
   _onRefresh = () => {
-    this.setState({refreshing: true});
+    this.setState({ refreshing: true });
     fetchData().then(() => {
-      this.setState({refreshing: false});
+      this.setState({ refreshing: false });
     });
-  }
+  };
 
   async componentDidMount() {
     const employeeId = await AsyncStorage.getItem("employeeId");
     const companyId = await AsyncStorage.getItem("companyId");
-    
-   
-        axios
-        .post("https://pronteff.com/Prontee/api/getempdetails", {
-          empid: employeeId,
-          cmpid: companyId
-        })
-        .then(async res => {
-        
-          this.setState({ empData: res.data });
-          if (res.data.department_id) {
-            await AsyncStorage.setItem("departmentId", res.data.department_id);
-          }
-        });
-     
 
-    }
-   
+    axios
+      .post("https://pronteff.com/Prontee/api/getempdetails", {
+        empid: employeeId,
+        cmpid: companyId
+      })
+      .then(async res => {
+        this.setState({ empData: res.data });
+        if (res.data.department_id) {
+          await AsyncStorage.setItem("departmentId", res.data.department_id);
+        }
+      });
+  }
+
   render() {
     //  renderEmp () {
     //    return this.state.album
     //  }
     const { navigation } = this.props;
-    const empData1 = navigation.getParam('empData', 'NO-ID');
-   
+    const empData1 = navigation.getParam("empData", "NO-ID");
+
     return (
-      
-      <Container style={{marginTop:15}} >
-       
+      <Container style={{ marginTop: 15 }}>
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
-      
           <Body style={{ flex: 8, alignItems: "flex-end" }}>
             <Label
               style={{
@@ -112,17 +103,16 @@ class HomePage extends React.Component {
                     fontWeight: "bold"
                   },
                   android: {
-                    fontFamily: 'normal',
-                    fontWeight: 'bold',
+                    fontFamily: "normal",
+                    fontWeight: "bold"
                   }
-                
                 })
               }}
             >
               Pronteff IT Solutions
             </Label>
           </Body>
-          <Right style={{ flex: 3}}>
+          <Right style={{ flex: 3 }}>
             <MaterialCommunityIcons
               name="account-settings-variant"
               size={24}
@@ -135,7 +125,6 @@ class HomePage extends React.Component {
         </Header>
 
         <View style={{ flex: 1 }}>
-      
           <View
             style={{
               alignItems: "center",
@@ -160,21 +149,27 @@ class HomePage extends React.Component {
                 style={{ height: 80, width: 80, borderRadius: 40 }}
               />
 
-              <Text style={{ fontSize: 15,paddingBottom:6,paddingTop:10,color:'#0c1d40',
-                ...Platform.select({
-                  ios: {
-                    fontWeight: "bold"
-                  },
-                  android: {
-                    fontFamily: 'normal',
-                    fontWeight: 'bold',
-                  }
-                
-                }) }}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  paddingBottom: 6,
+                  paddingTop: 10,
+                  color: "#0c1d40",
+                  ...Platform.select({
+                    ios: {
+                      fontWeight: "bold"
+                    },
+                    android: {
+                      fontFamily: "normal",
+                      fontWeight: "bold"
+                    }
+                  })
+                }}
+              >
                 {this.state.empData.firstname} {this.state.empData.lastname}
               </Text>
-              <Text style={{ fontSize: 12,color:'gray' }}>
-                {this.state.empData.designation} 
+              <Text style={{ fontSize: 12, color: "gray" }}>
+                {this.state.empData.designation}
               </Text>
             </View>
 
@@ -186,12 +181,13 @@ class HomePage extends React.Component {
               />
             </View>
           </View>
-          <View   refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />
-        }
+          <View
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
             style={{
               flex: 2,
               justifyContent: "space-between",
@@ -201,21 +197,31 @@ class HomePage extends React.Component {
           >
             <View style={{ flexDirection: "row" }}>
               <FontAwesome name="bookmark" size={18} color={"gray"} />
-              <Text style={{ marginLeft: 10,color:'#0c1d40' }}> {this.state.empData.employee_id}</Text>
+              <Text style={{ marginLeft: 10, color: "#0c1d40" }}>
+                {" "}
+                {this.state.empData.employee_id}
+              </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <Feather name="phone-call" color={"gray"} size={18} />
-              <Text style={{ marginLeft: 10 ,color:'#0c1d40'}}>
-                +91 { empData1 !='NO-ID' ? empData1.mobileno: this.state.empData.mobileno  }
+              <Text style={{ marginLeft: 10, color: "#0c1d40" }}>
+                +91{" "}
+                {empData1 != "NO-ID"
+                  ? empData1.mobileno
+                  : this.state.empData.mobileno}
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <MaterialCommunityIcons name="email" size={18} color={"gray"} />
-              <Text style={{ marginLeft: 10,color:'#0c1d40' }}>{ empData1 !='NO-ID' ?   empData1.email:this.state.empData.email }</Text>
+              <Text style={{ marginLeft: 10, color: "#0c1d40" }}>
+                {empData1 != "NO-ID"
+                  ? empData1.email
+                  : this.state.empData.email}
+              </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <Entypo name="location-pin" size={18} color={"gray"} />
-              <Text style={{ marginLeft: 10,color:'#0c1d40' }}>
+              <Text style={{ marginLeft: 10, color: "#0c1d40" }}>
                 {this.state.empData.workinglocation}
               </Text>
             </View>
@@ -228,22 +234,19 @@ class HomePage extends React.Component {
             }}
           >
             <TouchableOpacity
-              onPress={ async () => {
+              onPress={async () => {
                 const check = await AsyncStorage.getItem("attDate");
-                if(check==this.state.checkDate){
-                  
+
+                if (check == this.state.checkDate) {
                   Alert.alert(
-                    '',
-                    'Sorry you already left out',
-                    [
-                   
-                      {text: 'OK', }
-                    ],
-                    {cancelable:false}
-                  )
+                    "",
+                    "Sorry you already left out",
+                    [{ text: "OK" }],
+                    { cancelable: false }
+                  );
+                } else {
+                  this.props.navigation.navigate("SettingsPage");
                 }
-                else{
-                this.props.navigation.navigate("SettingsPage");}
               }}
               style={{
                 marginTop: Dimensions.get("window").height * 0.1,

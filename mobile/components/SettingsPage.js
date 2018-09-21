@@ -54,6 +54,7 @@ class SettingsPage extends React.Component {
     if (unique_id == null) {
       navigator.geolocation.getCurrentPosition(
         position => {
+          console.log(position.coords.latitude);
           if (
             position.coords.latitude < 17.450926 &&
             position.coords.latitude > 17.448955
