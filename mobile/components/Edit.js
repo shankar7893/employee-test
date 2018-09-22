@@ -113,7 +113,9 @@ class Edit extends React.Component {
         aspect: [4, 3],
         base64: true
       });
+
       this.setState({ image: pickerResult });
+      this.setState({ imageurl: pickerResult.uri });
       // this._handleImagePicked(pickerResult);
     }
   };

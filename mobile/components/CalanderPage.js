@@ -132,7 +132,7 @@ class CalenderPage extends React.Component {
                 }}
                 style={{
                   height: Dimensions.get("window").width * 0.7,
-                  width: Dimensions.get("window").width * 0.7
+                  width: Dimensions.get("window").width * 0.9
                 }}
               />
             ) : null}

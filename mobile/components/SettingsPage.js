@@ -24,6 +24,7 @@ import {
 import axios from "react-native-axios";
 import Success from "./Success";
 import AttendenceScreen from "./AttendenceScreen";
+import { Constants, Location, Permissions } from "expo";
 
 class SettingsPage extends React.Component {
   constructor(props) {
@@ -38,6 +39,13 @@ class SettingsPage extends React.Component {
   }
 
   async componentDidMount() {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status == "granted") {
+      let location = await Location.getCurrentPositionAsync({});
+
+      console.log(location);
+    }
+
     const checkDate = await AsyncStorage.getItem("checkDate");
 
     BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
