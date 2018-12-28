@@ -35,7 +35,10 @@ class ChartPage extends React.Component {
   render() {
     return (
       <View style={{ alignItems: "center", justifyContent: "center", flex: 1 }}>
-        <Text> App Building is under process sorry....</Text>
+        <Text style={{ fontFamily: "calibri" }}>
+          {" "}
+          App Building is under process sorry....
+        </Text>
 
         <TouchableOpacity
           onPress={async () => {
@@ -59,7 +62,7 @@ class ChartPage extends React.Component {
             borderTopRightRadius: 30
           }}
         >
-          <Text style={{ color: "white" }}>Logout</Text>
+          <Text style={{ fontFamily: "calibri", color: "white" }}>Logout</Text>
         </TouchableOpacity>
       </View>
     );

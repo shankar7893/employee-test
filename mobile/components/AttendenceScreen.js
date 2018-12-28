@@ -30,10 +30,9 @@ import {
 import axios from "react-native-axios";
 
 class AttendenceScreen extends React.Component {
-
   render() {
     return (
-      <Container style={{marginTop:15}} >
+      <Container style={{ marginTop: 15 }}>
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
           <Body style={{ alignItems: "center", justifyContent: "flex-end" }}>
             <View
@@ -48,13 +47,13 @@ class AttendenceScreen extends React.Component {
                   fontSize: 18,
                   ...Platform.select({
                     ios: {
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     },
                     android: {
-                      fontFamily: 'normal',
-                      fontWeight: 'bold',
+                      fontFamily: "calibri",
+                      fontWeight: "bold"
                     }
-                  
                   })
                 }}
               >
@@ -71,7 +70,9 @@ class AttendenceScreen extends React.Component {
         <View
           style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
         >
-          <View style={{ justifyContent: "center", alignItems: "center" ,flex:1 }}>
+          <View
+            style={{ justifyContent: "center", alignItems: "center", flex: 1 }}
+          >
             <Image
               source={require("../assets/Icons/failed.png")}
               style={{
@@ -79,9 +80,17 @@ class AttendenceScreen extends React.Component {
                 width: Dimensions.get("window").width * 0.3,
                 borderRadius: Dimensions.get("window").width * 0.15
               }}
-            /></View><View style={{ justifyContent:'flex-start' , alignItems: "center",flex:1 }}>
-            <Text style={{ margin: 10 }}>Failed</Text>
-            <Text>
+            />
+          </View>
+          <View
+            style={{
+              justifyContent: "flex-start",
+              alignItems: "center",
+              flex: 1
+            }}
+          >
+            <Text style={{ fontFamily: "calibri", margin: 10 }}>Failed</Text>
+            <Text style={{ fontFamily: "calibri" }}>
               No internet connection / On location services
             </Text>
           </View>

@@ -31,7 +31,8 @@ import {
   Ionicons,
   FontAwesome,
   MaterialCommunityIcons,
-  Feather,Entypo
+  Feather,
+  Entypo
 } from "@expo/vector-icons";
 import Login from "./Login";
 import AttendenceScreen from "./AttendenceScreen";
@@ -56,7 +57,6 @@ const HomeTab = createBottomTabNavigator(
     Attendence: {
       screen: Leave,
       navigationOptions: {
-        
         tabBarIcon: ({ tintColor }) => (
           <Feather name="user-check" size={30} color={tintColor} />
         )
@@ -64,9 +64,8 @@ const HomeTab = createBottomTabNavigator(
     },
     Calender: {
       screen: CalenderPage,
-      
+
       navigationOptions: {
-      
         tabBarIcon: ({ tintColor }) => (
           <FontAwesome name="calendar" size={30} color={tintColor} />
         )
@@ -85,11 +84,7 @@ const HomeTab = createBottomTabNavigator(
       screen: ChartPage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
-          <Entypo
-            name="pie-chart"
-            size={30}
-            color={tintColor}
-          />
+          <Entypo name="pie-chart" size={30} color={tintColor} />
         )
       }
     },

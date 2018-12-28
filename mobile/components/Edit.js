@@ -136,10 +136,11 @@ class Edit extends React.Component {
                   fontSize: 18,
                   ...Platform.select({
                     ios: {
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     },
                     android: {
-                      fontFamily: "normal",
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     }
                   })
@@ -190,10 +191,11 @@ class Edit extends React.Component {
                   paddingTop: 10,
                   ...Platform.select({
                     ios: {
-                      fontWeight: "bold"
+                      fontWeight: "bold",
+                      fontFamily: "calibri"
                     },
                     android: {
-                      fontFamily: "normal",
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     }
                   })
@@ -300,7 +302,7 @@ class Edit extends React.Component {
                   borderBottomWidth: 1
                 }}
               >
-                <Text>Password</Text>
+                <Text style={{ fontFamily: "calibri" }}>Password</Text>
                 <Entypo
                   name="edit"
                   size={20}
@@ -407,7 +409,9 @@ class Edit extends React.Component {
                 borderTopRightRadius: 30
               }}
             >
-              <Text style={{ color: "white" }}>Update</Text>
+              <Text style={{ fontFamily: "calibri", color: "white" }}>
+                Update
+              </Text>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>

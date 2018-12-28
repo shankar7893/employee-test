@@ -41,12 +41,17 @@ class HolidayPage extends React.Component {
 
   componentDidMount() {
     axios
-      .post("http://192.168.0.131/Prontee/api/holidaysdetails", {
+      .post("http://pronteff.com/Prontee/api/holidaysdetails", {
         company_id: "CMP-1"
       })
       .then(res => {
         this.setState({ Holidays: res.data });
-        this.setState({ holidays_left: 10 - res.data.length });
+        console.log(res.data);
+        if (res.data.length !== 0) {
+          this.setState({ holidays_left: 10 - res.data.length });
+        } else {
+          this.setState({ holidays_left: 0 });
+        }
       });
   }
 
@@ -76,10 +81,10 @@ class HolidayPage extends React.Component {
             borderTopRightRadius: 0
           }}
         >
-          <Text>{holiday.title}</Text>
+          <Text style={{ fontFamily: "calibri" }}>{holiday.title}</Text>
         </CardItem>
         <CardItem style={{ flex: 3 }}>
-          <Text>{holiday.hlday_date}</Text>
+          <Text style={{ fontFamily: "calibri" }}>{holiday.hlday_date}</Text>
         </CardItem>
       </Card>
     ));
@@ -99,10 +104,11 @@ class HolidayPage extends React.Component {
                   fontSize: 18,
                   ...Platform.select({
                     ios: {
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     },
                     android: {
-                      fontFamily: "normal",
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     }
                   })
@@ -136,8 +142,14 @@ class HolidayPage extends React.Component {
             }}
           >
             <View style={{ alignItems: "center", marginRight: 5 }}>
-              <Text>Holidays Left</Text>
-              <Text style={{ color: "red", alignItems: "center" }}>
+              <Text style={{ fontFamily: "calibri" }}>Holidays Left</Text>
+              <Text
+                style={{
+                  fontFamily: "calibri",
+                  color: "red",
+                  alignItems: "center"
+                }}
+              >
                 {this.state.holidays_left}
               </Text>
             </View>

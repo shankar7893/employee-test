@@ -13,8 +13,7 @@ import {
   Platform,
   ToastAndroid,
   AsyncStorage,
-  NetInfo,
-  
+  NetInfo
 } from "react-native";
 import { createBottomTabNavigator } from "react-navigation";
 import {
@@ -83,15 +82,9 @@ class Success extends React.Component {
           console.log(res.data.unique_att_id);
           let x = new Date().getDate();
           await AsyncStorage.setItem("checkDate", x.toString());
-          Alert.alert(
-            '',
-           res.data.message,
-            [
-           
-              {text: 'OK', }
-            ],
-            {cancelable:false}
-          )
+          Alert.alert("", res.data.message, [{ text: "OK" }], {
+            cancelable: false
+          });
         })
         .catch(error => {
           console.log(error);
@@ -109,7 +102,7 @@ class Success extends React.Component {
 
   render() {
     return (
-      <Container style={{marginTop:15}} >
+      <Container style={{ marginTop: 15 }}>
         <Header style={{ backgroundColor: "white", borderBottomWidth: 0 }}>
           <Body style={{ alignItems: "center", justifyContent: "flex-end" }}>
             <View
@@ -124,10 +117,11 @@ class Success extends React.Component {
                   fontSize: 18,
                   ...Platform.select({
                     ios: {
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     },
                     android: {
-                      fontFamily: "normal",
+                      fontFamily: "calibri",
                       fontWeight: "bold"
                     }
                   })
@@ -161,6 +155,7 @@ class Success extends React.Component {
               style={{
                 ...Platform.select({
                   ios: {
+                    fontFamily: "calibri",
                     fontWeight: "bold"
                   }
                 }),
@@ -169,102 +164,100 @@ class Success extends React.Component {
             >
               Success
             </Text>
-            <Text>{this.state.message}</Text>
-            <Text>{this.state.timeStore}</Text>
+            <Text style={{ fontFamily: "calibri" }}>{this.state.message}</Text>
+            <Text style={{ fontFamily: "calibri" }}>
+              {this.state.timeStore}
+            </Text>
           </View>
           <View style={{ flex: 1, justifyContent: "flex-start" }}>
             <TouchableOpacity
               onPress={async () => {
                 const unique_id = await AsyncStorage.getItem("uniqueId");
-                Alert.alert('',
-                'Are you sure do you want to leave out',
-                [
-                  
-                  {text: 'Cancel', style: 'cancel'},
-                  {text: 'OK', onPress: () =>{
-                    if (unique_id != null) {
-                      navigator.geolocation.getCurrentPosition(
-                        async position => {
-                          if (
-                            position.coords.latitude < 17.450926 &&
-                            position.coords.latitude > 17.448955
-                          ) {
+                Alert.alert("", "Are you sure do you want to leave out", [
+                  { text: "Cancel", style: "cancel" },
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      if (unique_id != null) {
+                        navigator.geolocation.getCurrentPosition(
+                          async position => {
                             if (
-                              position.coords.longitude < 78.388429 &&
-                              position.coords.longitude > 78.385987
+                              position.coords.latitude < 17.450926 &&
+                              position.coords.latitude > 17.448955
                             ) {
-                              // Alert.alert('HI','Noted','OK');
-                              axios
-                                .post(
-                                  "https://pronteff.com/Prontee/api/employeeleaveout",
-                                  {
-                                    att_unique_id: await AsyncStorage.getItem(
-                                      "uniqueId"
-                                    ),
-                                    leave_out_status: "true"
-                                  }
-                                )
-                                .then(async res => {
-                                  await AsyncStorage.setItem(
-                                    "attendenceSubmitted",
-                                    "false"
-                                  );
-                                  Alert.alert(
-                                    '',
-                                   res.data.message,
-                                    [
-                                   
-                                      {text: 'OK', }
-                                    ],
-                                    {cancelable:false}
+                              if (
+                                position.coords.longitude < 78.388429 &&
+                                position.coords.longitude > 78.385987
+                              ) {
+                                // Alert.alert('HI','Noted','OK');
+                                axios
+                                  .post(
+                                    "https://pronteff.com/Prontee/api/employeeleaveout",
+                                    {
+                                      att_unique_id: await AsyncStorage.getItem(
+                                        "uniqueId"
+                                      ),
+                                      leave_out_status: "true"
+                                    }
                                   )
-                              
-    
-                                  let x = new Date().getDate();
-                                  this.setState({
-                                    timeStore: new Date().toLocaleString()
+                                  .then(async res => {
+                                    await AsyncStorage.setItem(
+                                      "attendenceSubmitted",
+                                      "false"
+                                    );
+                                    Alert.alert(
+                                      "",
+                                      res.data.message,
+                                      [{ text: "OK" }],
+                                      { cancelable: false }
+                                    );
+
+                                    let x = new Date().getDate();
+                                    this.setState({
+                                      timeStore: new Date().toLocaleString()
+                                    });
+                                    await AsyncStorage.setItem(
+                                      "timeStore",
+                                      new Date().toLocaleString()
+                                    );
+                                    await AsyncStorage.setItem(
+                                      "checkDate",
+                                      x.toString()
+                                    );
+                                    await AsyncStorage.setItem(
+                                      "attDate",
+                                      x.toString()
+                                    );
+                                    this.setState({
+                                      message: res.data.message
+                                    });
+
+                                    setTimeout(() => {
+                                      this.props.navigation.navigate(
+                                        "HomePage"
+                                      );
+                                    }, 1000);
+                                  })
+                                  .catch(error => {
+                                    console.log(error.message);
                                   });
-                                  await AsyncStorage.setItem(
-                                    "timeStore",
-                                    new Date().toLocaleString()
-                                  );
-                                  await AsyncStorage.setItem(
-                                    "checkDate",
-                                    x.toString()
-                                  );
-                                  await AsyncStorage.setItem(
-                                    "attDate",
-                                    x.toString()
-                                  );
-                                  this.setState({ message: res.data.message });
-                                  
-                                  setTimeout(() => {
-                                    this.props.navigation.navigate('HomePage');
-                                  },1000 )
-                                })
-                                .catch(error => {
-                                  console.log(error.message);
-                                });
-                              await AsyncStorage.removeItem("uniqueId");
-                              
-                              
+                                await AsyncStorage.removeItem("uniqueId");
+                              }
                             }
+                          },
+                          error => {
+                            alert("Turn location on");
+                          },
+                          {
+                            enableHighAccuracy: false,
+                            timeout: 200000,
+                            maximumAge: 1000
                           }
-                        },
-                        error => {
-                          alert("Turn location on");
-                        },
-                        {
-                          enableHighAccuracy: false,
-                          timeout: 200000,
-                          maximumAge: 1000
-                        }
-                      );
+                        );
+                      }
                     }
-                  }},
-                ],
-                )
-               
+                  }
+                ]);
               }}
               style={{
                 marginTop: Dimensions.get("window").height * 0.1,
@@ -284,7 +277,9 @@ class Success extends React.Component {
                 borderTopRightRadius: 30
               }}
             >
-              <Text style={{ color: "white" }}>Leaving out</Text>
+              <Text style={{ fontFamily: "calibri", color: "white" }}>
+                Leaving out
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

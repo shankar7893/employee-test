@@ -78,8 +78,8 @@ class Login extends React.Component {
             onPress={Keyboard.dismiss}
             accessible={false}
           >
-            <View style={{ flex: 2,  }}>
-              <Form style={{ flex: 1,alignItems:'center' }}>
+            <View style={{ flex: 2 }}>
+              <Form style={{ flex: 1, alignItems: "center" }}>
                 <Item floatingLabel style={styles.input}>
                   <Input
                     value={this.state.username}
@@ -90,7 +90,14 @@ class Login extends React.Component {
                   />
                 </Item>
                 {this.state.message == "Please enter EmployeeID" ? (
-                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10 }}>
+                  <Text
+                    style={{
+                      fontFamily: "calibri",
+                      color: "red",
+                      fontSize: 11,
+                      marginLeft: 10
+                    }}
+                  >
                     {this.state.message}
                   </Text>
                 ) : null}
@@ -104,9 +111,17 @@ class Login extends React.Component {
                     secureTextEntry={true}
                   />
                 </Item>
-                
+
                 {this.state.message != null ? (
-                  <Text style={{ color: "red", fontSize: 11, marginLeft: 10, alignItems:'center' }}>
+                  <Text
+                    style={{
+                      fontFamily: "calibri",
+                      color: "red",
+                      fontSize: 11,
+                      marginLeft: 10,
+                      alignItems: "center"
+                    }}
+                  >
                     {this.state.message}
                   </Text>
                 ) : null}
@@ -123,16 +138,17 @@ class Login extends React.Component {
           }}
         >
           <TouchableOpacity
-            onPress={async () =>
+            onPress={async () => {
+              this.setState({ message: null });
+
               axios
                 .post("https://pronteff.com/Prontee/api/authenticateemployee", {
-                 
                   empid: this.state.username,
                   password: this.state.password
                 })
                 .then(async res => {
                   console.log(res.data);
-                  console.log(this.state.username)
+                  console.log(this.state.username);
                   if (
                     this.state.username == null &&
                     this.state.password == null
@@ -202,8 +218,8 @@ class Login extends React.Component {
                   console.log("Api call error");
                   this.setState({ errorHandle: true });
                   alert(error.message);
-                })
-            }
+                });
+            }}
             style={{
               marginTop: Dimensions.get("window").height * 0.1,
               backgroundColor: "#0c1d40",
@@ -221,7 +237,7 @@ class Login extends React.Component {
               borderTopRightRadius: 30
             }}
           >
-            <Text style={{ color: "white" }}>Login</Text>
+            <Text style={{ fontFamily: "calibri", color: "white" }}>Login</Text>
           </TouchableOpacity>
         </View>
       </View>
